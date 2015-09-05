@@ -1,10 +1,10 @@
 # Shaders2015
-MFA Design + Technology Parsons School for Design Shader Studio 2015 with Patricio Gonzalez Vivo
+MFA Design + Technology Parsons School for Design Shader Studio 2015 with [Patricio Gonzalez Vivo](https://github.com/patriciogonzalezvivo)
 
 Name: Hang Do Thi Duc
 
 ID: dothh489
 
-Web: 22-8miles.com
+Web: [22-8miles.com](http://22-8miles.com)
 
 Email: hangdo@newschool.edu
