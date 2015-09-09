@@ -21,7 +21,7 @@
 
         void main() {
             vec2 st = gl_FragCoord.xy/u_resolution.xy;
-            gl_FragColor=vec4(st.x,st.y,0.0,1.0);
+            gl_FragColor=vec4(abs(sin(u_time + st.x)),abs(sin(u_time + st.y)),0.0,1.0);
         }
     </script>
     <script>
@@ -43,12 +43,12 @@
 
             scene = new THREE.Scene();
 
-            var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
-
             uniforms = {
                 u_time: { type: "f", value: 1.0 },
                 u_resolution: { type: "v2", value: new THREE.Vector2() }
             };
+
+            var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
             var material = new THREE.ShaderMaterial( {
                 uniforms: uniforms,
@@ -76,11 +76,7 @@
 
         function animate() {
             requestAnimationFrame( animate );
-            render();
-        }
-
-        function render() {
-            uniforms.u_time.value += 0.05;
+            uniforms.u_time.value += 0.01;
             renderer.render( scene, camera );
         }
     </script>

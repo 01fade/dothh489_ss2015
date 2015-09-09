@@ -7,7 +7,10 @@ uniform vec2 u_mouse;      // mouse position in screen pixels
 uniform float u_time;     // Time in seconds since load 
 
 void main() {
-	// vec2 st = gl_FragCoord.xy/u_resolution;
-	vec2 mousePos = gl_FragCoord.xy/u_mouse;
-	gl_FragColor = vec4(mousePos.x,mousePos.y,0.0,1.0);
+	//fast
+	// gl_FragColor = vec4(0.0,abs(sin(u_time * 25.0)),0.0,1.0);
+
+	//slow
+	gl_FragColor = vec4(0.0,abs(sin(u_time * 0.5)),0.0,1.0);
 }
+
