@@ -7,6 +7,9 @@ uniform vec2 u_mouse;      // mouse position in screen pixels
 uniform float u_time;     // Time in seconds since load 
 
 void main() {
-	vec2 mousePos = gl_FragCoord.xy/u_mouse;
-	gl_FragColor = vec4(mousePos.x,mousePos.y,abs(sin(u_time)),1.0);
+	int a;
+	ivec3 b; //vector of ints
+	bvec3 c; //vector of booleans
+	gl_FragColor = vec4(0.0,abs(sin(u_time * 99.0)),0.0,1.0);
 }
+
