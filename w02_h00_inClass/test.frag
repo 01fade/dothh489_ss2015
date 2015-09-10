@@ -10,6 +10,13 @@ void main() {
 	int a;
 	ivec3 b; //vector of ints
 	bvec3 c; //vector of booleans
-	gl_FragColor = vec4(0.0,abs(sin(u_time * 99.0)),0.0,1.0);
+
+	// gl_FragColor = vec4(0.0,abs(sin(u_time * 99.0)),0.0,1.0);
+
+	vec2 st = gl_FragCoord.xy/u_resolution;
+	vec2 mouse = u_mouse/u_resolution;
+	mouse.x = 1.0-mouse.x;
+	mouse.y = 1.0-mouse.y;
+	gl_FragColor = vec4(st.x + mouse.x, st.y + mouse.y, 0.0, 1.0);
 }
 
