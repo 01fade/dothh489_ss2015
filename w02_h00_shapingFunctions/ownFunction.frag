@@ -22,7 +22,8 @@ void main() {
 
 }
 
-// black is zero
+// black is zero, white is one
 
+//try later
 //vec2 p = vec2(cos(u_time*.5), sin(u_time*.5))*.5+.5
 //color = vec3(step(0.7,pct)+pct)
