@@ -1,10 +1,5 @@
-# Shader Studio 2015
-MFA Design + Technology Parsons School for Design Shader Studio 2015 with [Patricio Gonzalez Vivo](https://github.com/patriciogonzalezvivo). Class repository can be found [here](https://github.com/patriciogonzalezvivo/ss2015) and homework assignments [here](https://github.com/patriciogonzalezvivo/ss2015/blob/master/04-homework.md).
+# Shaping Functions
 
-**Name**: Hang Do Thi Duc
+Based on [this chapter](http://patriciogonzalezvivo.com/2015/thebookofshaders/05/) of the [Book of Shaders](http://patriciogonzalezvivo.com/2015/thebookofshaders) by [Patricio Gonzalez Vivo](https://github.com/patriciogonzalezvivo).
 
-**ID**: dothh489
-
-**Web**: [Portfolio](http://22-8miles.com) // [DT Blog](http://dt.hangdothiduc.de)
-
-**Email**: hangdo@newschool.edu
+This is in class code and notes.
