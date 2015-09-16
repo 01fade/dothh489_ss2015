@@ -20,8 +20,9 @@ float plot(vec2 st, float pct){
 
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
+    vec2 mouse = u_mouse/u_resolution;
 
-    float y = pcurve(st.x,2.0,5.0);
+    float y = pcurve(st.x, mouse.x * 5., mouse.y * 5.);
 
     vec3 color = vec3(y);
     

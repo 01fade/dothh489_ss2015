@@ -4,4 +4,4 @@
 
 http://www.flickr.com/photos/kynd/9546075099/
 
-I added mouse interaction. Depending on x position k and therefore the shape of and gradient change.
+All examples with mouse interaction. Depending on x position k and therefore the shape of and gradient change.
