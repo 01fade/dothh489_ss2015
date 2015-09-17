@@ -1,4 +1,4 @@
-// Code by Jaskirat 
+// Base Code by Jaskirat 
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -7,29 +7,30 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
 
 void main (void)
 {
-	// float fade_out = 1.-abs(sin(u_time)-cos(u_time));
+	vec2 st = gl_FragCoord.xy/u_resolution;
+	vec4 bkg_color = vec4(0.);
+
+	// vec2 mouse = u_resolution/u_mouse;
+	// float fade_out = 1.-mod(mouse.x, 2.);
 	float fade_out = 1.-mod(u_time, 2.);
 
-	float border = abs(sin(fade_out/3.)); // 0.01
 	float circle_radius= 1.-(fade_out); // 0.5
+	// width of ripple
+	float border = abs(sin(fade_out/3.)); // 0.01
 	
 	vec4 circle_color= vec4(1.0, 1.0, 1.0, fade_out);
-	vec2 circle_center= vec2(0.5, 0.5);
-
-	vec2 st = gl_FragCoord.xy/u_resolution.xy;
-  
-	vec4 bkg_color = vec4(0.);
  
 	// Offset st with the center of the circle.
-	st = st - circle_center;
+	st -= vec2(0.5, 0.5);
   
-	float dist =  sqrt(dot(st/.2, st/.2)); //????
+	float dist =  sqrt(dot(st*5., st*5.)); //size
+
+	float plot = 1.0 + smoothstep(circle_radius, circle_radius + border, dist) 
+                - smoothstep(circle_radius - border, circle_radius, dist);
  
-	float t = 1.0 + smoothstep(circle_radius, circle_radius+border, dist) 
-                - smoothstep(circle_radius-border, circle_radius, dist);
- 
-	gl_FragColor = mix(circle_color, bkg_color,t);
+	gl_FragColor = mix(circle_color, bkg_color, plot);
 }

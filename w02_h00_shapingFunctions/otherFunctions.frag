@@ -17,11 +17,11 @@ float plot(vec2 st, float pct){
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
 	
-	// float y = mod(st.x,0.5); // return x modulo of 0.5
+	float y = mod(st.x, .8); // return x modulo of 0.5
 	// float y = fract(st.x); // return only the fraction part of a number
 	// float y = ceil(st.x);  // nearest integer that is greater than or equal to x
 	// float y = floor(st.x); // nearest integer less than or equal to x
-	float y = sign(st.x);  // extract the sign of x
+	// float y = sign(st.x);  // extract the sign of x
 	//float y = abs(st.x);   // return the absolute value of x
 	//float y = clamp(st.x,0.0,1.0); // constrain x to lie between 0.0 and 1.0
 	//float y = min(0.0,st.x);   // return the lesser of x and 0.0
