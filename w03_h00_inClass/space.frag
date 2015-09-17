@@ -19,19 +19,13 @@ void main() {
 	st.y -= PI;
 	st.x -= u_time;
 
-	vec4 V;
-	V.x =
-	V.y =
-	V.z =
-	V.w =
-
     float y = st.x;
     y = sin(y);
 
     vec3 color = vec3(y);
     
-    float pct = plot(st,y);
-    color = (1.0-pct)*color+pct*vec3(0.0,5.0,0.0);
+    // float pct = plot(st,y);
+    // color = (1.0-pct)*color+pct*vec3(0.0,5.0,0.0);
     
 	gl_FragColor = vec4(color/5.,1.0);
 }

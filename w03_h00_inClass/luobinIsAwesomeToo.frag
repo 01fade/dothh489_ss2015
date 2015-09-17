@@ -21,7 +21,7 @@ void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
     vec2 mousePos = u_mouse/u_resolution;
     float pct = F1(st.x - mousePos.x);
-    pct *= F2(st.y - mousePos.y);
+    pct /= F2(st.y - mousePos.y);
 
     vec3 color = vec3(pct* 1.0);
     
