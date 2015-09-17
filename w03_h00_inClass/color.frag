@@ -1,0 +1,42 @@
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+#define PI 3.14159265359
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - 
+          smoothstep( pct, pct+0.02, st.y);
+}
+
+void main() {
+	vec2 st = gl_FragCoord.xy/u_resolution;
+	vec3 color = vec3(0.);
+
+	// float y = st.x;
+	float y = pow(st.x, 5.);
+
+	vec3 pct = vec3(st.x);
+
+	pct.r = pow(pct.r, 0.2);
+	pct.g = sin(pct.g);
+	pct.b = pow(pct.b, 2.);
+
+	vec3 A = vec3(0.988,0.341,0.712);
+	vec3 B = vec3(1.000,0.833,0.224);
+
+	// color = mix(A, B, mod(u_time, 1.));
+	// color = mix(A, B, fract(u_time));
+	// color = mix(A, B, sin(u_time));
+	color = mix(A, B, pct);
+
+	color.r += plot(st,pct.r);
+	color.g += plot(st,pct.g);
+	color.b += plot(st,pct.b);
+
+	gl_FragColor = vec4(color,1.0);
+}
