@@ -20,8 +20,8 @@ void main() {
 
     vec3 color = vec3(y);
 // 	st = st - vec2(0.5, 0.5);
-    float pct = plot(st,y);
-    color = (pct)*color+(color*pct)*vec3(sin(u_time),cos(u_time),0.0);
-    
+    // float pct = plot(st,y);
+    // color = (pct)*color+(color*pct)*vec3(sin(u_time),cos(u_time),0.0);
+
     gl_FragColor = vec4(color,1.0);
 }
