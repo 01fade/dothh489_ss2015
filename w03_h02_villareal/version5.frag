@@ -23,13 +23,16 @@ void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     vec3 cyan = vec3(0.,1.,1.);
     vec3 blue = vec3(0.,0.,1.);
+    vec3 colorA = vec3(0.);
+    vec3 colorB = vec3(0., 0., 1.);
 
-    // float y = sqrt(pow(((0.5-st.x)/sin(u_time)),2.0)+pow(((st.y-0.5)/sin(u_time)),2.0));
-    //
-    float y = sqrt(pow(((0.5-st.x)),2.0) + pow(((st.y-0.5)),2.0));
-    y -= sqrt(pow(((0.5-st.x)),2.0) + pow(((st.y-0.5)),2.0));
 
-    vec3 color = vec3(y * sin(u_time));
+    colorA = vec3(sqrt(pow(((0.5-st.x)/.5),2.0)+pow(((st.y-0.5)/.5),2.0)));
+    colorB.rg = vec2(sqrt(pow(((0.5-st.x)/2.),2.0)+pow(((st.y-0.5)/2.),2.0)));
+    color.b = 1.0;
+
+    color = mix(colorA, colorB, sin(u_time));
+
 
     gl_FragColor = vec4(color,1.0);
 }
