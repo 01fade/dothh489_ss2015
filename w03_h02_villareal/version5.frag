@@ -26,6 +26,9 @@ void main() {
     vec3 colorA = vec3(0.);
     vec3 colorB = vec3(0., 0., 1.);
 
+    //
+    // rework! with week 4 in class code
+    //
 
     colorA = vec3(sqrt(pow(((0.5-st.x)/.5),2.0)+pow(((st.y-0.5)/.5),2.0)));
     colorB.rg = vec2(sqrt(pow(((0.5-st.x)/2.),2.0)+pow(((st.y-0.5)/2.),2.0)));
