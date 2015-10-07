@@ -19,12 +19,12 @@ void main(){
     float r = length(pos)*2.0;
     float a = atan(pos.y,pos.x);
 
-    float f = abs(cos(a*2.5))*.5+.3;
+    float f = smoothstep(-.5,1., cos(a*10.))*0.2+0.5;
     vec3 colorA = vec3( 1.-smoothstep(f,f+0.02,r) );
 
     vec2 toCenter = vec2(0.5)-st;
     pct = length(toCenter) * 2.;
-    pct = step(0.15, pct);
+    pct = step(0.3, pct);
     vec3 colorB = vec3(pct);
 
     color = mix(colorA, colorB, .5);
