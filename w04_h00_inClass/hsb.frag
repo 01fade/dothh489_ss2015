@@ -25,6 +25,11 @@ void main(){
     // Use polar coordinates instead of cartesian
     vec2 toCenter = vec2(0.5)-st;
     float angle = atan(toCenter.y,toCenter.x);
+
+    // original code is linear function
+    // cyan and green have to be modified/stretched
+    // modify here with angle
+
     float radius = length(toCenter)*2.0;
 
     // Map the angle (-PI to PI) to the Hue (from 0 to 1)
@@ -33,7 +38,3 @@ void main(){
 
     gl_FragColor = vec4(color,1.0);
 }
-
-
-// original code is linear function
-// cyan and green have to be modified/stretched
