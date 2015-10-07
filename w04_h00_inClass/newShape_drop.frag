@@ -19,7 +19,7 @@ void main() {
     // pct = step(0.9, pct); //add when no border
 
     float final = step(0.9, pct) - step(0.92, pct);
-    float shadow = smoothstep(0.9, 0.4, pct) + step(0.92, pct);
+    float shadow = smoothstep(0.9, 0.2, pct) + step(0.92, pct);
     final += (1.0 - shadow) * 0.4;
 
     color = vec3( 1.0 - final );

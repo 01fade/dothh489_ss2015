@@ -28,7 +28,7 @@ void main(){
 
     // original code is linear function
     // cyan and green have to be modified/stretched
-    // modify here with angle
+    // modify with angle here
 
     float radius = length(toCenter)*2.0;
 

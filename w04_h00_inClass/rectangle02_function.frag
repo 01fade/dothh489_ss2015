@@ -7,6 +7,7 @@ uniform float u_time;
 
 vec3 rect (float w, float h, float x, float y){
     // black is 0, white is 1
+    // always from center
     float pct = (step(0.5 - w * 0.5, x) - step(0.5 + w * 0.5, x)) *
     	(step(0.5 - h * 0.5, y) - step(0.5 + h * 0.5, y));
     return vec3(pct);

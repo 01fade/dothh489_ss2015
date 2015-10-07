@@ -14,10 +14,8 @@ void main() {
     float r = length(st)*2.;
     float a = atan(st.y, st.x)/6.283+0.5;
 
-    color = vec3(1.0 - step(0.5, r));
+    color = vec3(1.0 - step(0.3, r));
 
     gl_FragColor = vec4(color, 1.0);
 
 }
-
-//from class, unfinished

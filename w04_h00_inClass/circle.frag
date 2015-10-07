@@ -21,8 +21,6 @@ void main() {
     pct = fract(pct * 2. + u_time);
     pct = step(0.5, pct);
 
-
-
     color = vec3(pct);
 
     gl_FragColor = vec4(color, 1.0);
