@@ -1,5 +1,5 @@
 # Shader Studio 2015
-MFA Design + Technology Parsons School for Design Shader Studio 2015 with [Patricio Gonzalez Vivo](https://github.com/patriciogonzalezvivo). Class repository can be found [here](https://github.com/patriciogonzalezvivo/ss2015) and homework assignments [here](https://github.com/patriciogonzalezvivo/ss2015/blob/master/04-homework.md).
+MFA Design + Technology Parsons School for Design Shader Studio 2015 with [Patricio Gonzalez Vivo](https://github.com/patriciogonzalezvivo). Class repository can be found [here](https://github.com/patriciogonzalezvivo/ss2015).
 
 **Name**: Hang Do Thi Duc
 
