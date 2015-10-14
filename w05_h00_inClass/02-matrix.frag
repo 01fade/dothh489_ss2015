@@ -65,9 +65,9 @@ void main(){
     vec3 color = vec3(0.0);
     vec3 pos = vec3(st,1.0);
 
-//     translate(vec2(-.5));
-//     scale(vec2(sin(u_time)));
-//     rotate(u_time);
+    translate(vec2(-.5));
+    // scale(vec2(sin(u_time)));
+    // rotate(u_time);
 
     pos = matrix * pos;
 
