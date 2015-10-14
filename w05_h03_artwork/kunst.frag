@@ -5,6 +5,10 @@ precision mediump float;
 #define PI 3.14159265359
 #define TWO_PI 6.28318530718
 #define pink vec3(1.00,0.18,0.37)
+#define blue3 vec3(0.05,0.26,0.30)
+#define blue4 vec3(0.953,0.969,0.89)
+#define green vec3(0.3,0.89,0.79)
+#define green2 vec3(0.3,0.89,0.49)
 
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
@@ -71,18 +75,18 @@ void main(){
 	float three = fract(cos(st.x) * 800.);
 	float four = fract(sin(st.y) * 300.);
 
-	translate(vec2(-.5));
+	translate(vec2(-.45, -0.55));
 	scale(vec2(4.5 + 1.0 * F(.05, 4., 0.8)));
 	rotate(F(.1, 10., 0.5));
 	pos = matrix * pos0;
 	//size, x, y, n, beg, end, st
-	color += shape(0.4, 0.7, 0.7 * one, 6.0, 0.65, 0.7, pos.xy);
-	color += shape(0.4, -0.3, 0.7 * two, 6.0, 0.65, 0.7, pos.xy);
+	color += shape(0.4, 0.7 * two, 0.7 * one, 6.0, 0.65, 0.7, pos.xy) * pink;
+	color += shape(0.4, -0.3 * one, 0.7 * two, 6.0, 0.65, 0.7, pos.xy) * green;
+	color += shape(0.4, 0.7 * two, -0.4 * three, 6.0, 0.65, 0.7, pos.xy) * blue4;
 	rotate(-1.4*F(.1, 8., 0.8));
-	scale(vec2(.1 + .6 * F(.05, 2., 0.2)));
+	scale(vec2(.1 + .6 * F(.05, 5., 0.2)));
 	pos = matrix * pos0;
-	color += shape(0.4, 0.7, -0.4 * three, 6.0, 0.65, 0.7, pos.xy);
-	color += shape(0.2, 0.0, 0.3 * three, 9.0, 0.65, 0.7, pos.xy);
+	color += shape(0.22, -0.5 * two, 0.2 * three, 9.0, 0.65, 0.7, pos.xy);
 
 	gl_FragColor = vec4(color,1.0);
 }
