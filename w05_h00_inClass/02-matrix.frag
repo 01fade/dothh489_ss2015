@@ -66,8 +66,8 @@ void main(){
     vec3 pos = vec3(st,1.0);
 
     translate(vec2(-.5));
-    // scale(vec2(sin(u_time)));
-    // rotate(u_time);
+    scale(vec2(sin(u_time)));
+    rotate(u_time);
 
     pos = matrix * pos;
 
