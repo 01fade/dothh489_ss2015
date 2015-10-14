@@ -23,31 +23,13 @@ float cross(in vec2 _st, float _size){
             box(_st, vec2(_size/4.,_size));
 }
 
-// mat3 scaleMat(vec2 f){
-//     return mat3(vec3(f.x, 0., 0.), vec3( 0., f.y, 0.), vec3(0., 0., 1.));
-// }
-
-// mat3 translateMat(vec2 f){
-//     return mat3(vec3(1., 0., 0.), vec3( 0., 1., 0.), vec3(f.x, f.y, 1.));
-// }
-
-// mat3 rotateMat(float a){
-//     return mat3(vec3(cos(a), -sin(a), 0.),
-//                 vec3(sin(a), cos(a), 0. ),
-//                 vec3(0., 0., 1.));
-// }
-//
-scale (vec2 f, vec3 pos)
-
-
 void main(){
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     vec3 color = vec3(0.0);
 
-    vec3 pos = vec3(st, 1.0);
-    pos =
-    pos = scaleMat(vec(1., 5.)) * pos;
-
+    // To move the cross we move the space
+    vec2 translate = vec2(cos(u_time),sin(u_time));
+    st += translate * sin(st.x) * 0.1;
 
     // Add the shape on the foreground
     color += vec3(cross(st,0.25));
