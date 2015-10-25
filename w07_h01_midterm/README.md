@@ -1,5 +1,8 @@
 # Midterm Shader Studio 2015
-	The midterm project will consist on choosing three design rules (like for example diversity, simplicity and elegance) and make a GLSL library (group of custom functions) to make simple shapes (no less than 5) and ways to combine them in a series of procedural patterns (no less than 10). Make a project on OF, P5, three.js or other framework (Unity, Tangram, etc) to show off the qualities you choose. Your project have to be documented and sharable over the internet as a video or webpage.
+"The midterm project will consist on choosing three design rules (like for example diversity, simplicity and elegance) and make a GLSL library (group of custom functions) to make simple shapes (no less than 5) and ways to combine them in a series of procedural patterns (no less than 10). Make a project on OF, P5, three.js or other framework (Unity, Tangram, etc) to show off the qualities you choose. Your project have to be documented and sharable over the internet as a video or webpage." - Patricio _ Assignment
+
+##Project
+I see this as an experimental visual for a music video.
 
 ##References
 [Learning Three.js by Jos Dirksen](https://github.com/josdirksen/learning-threejs)
