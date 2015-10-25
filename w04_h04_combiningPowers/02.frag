@@ -1,3 +1,6 @@
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// Base Code _ http://thndl.com/square-shaped-shaders.html
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -8,9 +11,6 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
-
-// Reference to
-// http://thndl.com/square-shaped-shaders.html
 
 vec3 shape(float pos, float n, float b, float e, vec2 st){
   float d = 0.0;

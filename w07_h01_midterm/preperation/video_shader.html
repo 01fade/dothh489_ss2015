@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Video</title>
+    <!-- Author _ Hang Do Thi Duc ( 22-8miles.com ) -->
+    <!-- Code Base _ https://github.com/josdirksen/learning-threejs - Example 10.11 - Video texture-->
+    <!-- libaries -->
+    <script type="text/javascript" src="js/libs/three.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <!-- post processing -->
+    <script type="text/javascript" src="js/post/CopyShader.js"></script>
+    <script type="text/javascript" src="js/post/EffectComposer.js"></script>
+    <script type="text/javascript" src="js/post/RenderPass.js"></script>
+    <script type="text/javascript" src="js/post/MaskPass.js"></script>
+    <script type="text/javascript" src="js/post/ShaderPass.js"></script>
+    <!-- shaders -->
+    <script src="js/shaders/DotScreenShader.js"></script>
+    <script src="js/shaders/RGBShiftShader.js"></script>
+    <!-- stats, gui -->
+    <script type="text/javascript" src="js/libs/stats.min.js"></script>
+    <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
+    </style>
+</head>
+<body>
+<div id="Stats-output"></div>
+<div id="WebGL-output"></div>
+<script type="text/javascript">
+    $(function () {
+        var stats = initStats();
+        var scene = new THREE.Scene();
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var camera  = new THREE.OrthographicCamera(w / - 2, w / 2, h / 2, h / - 2, -10000, 10000 )
+        camera.position.z = 3;
+        var webGLRenderer = new THREE.WebGLRenderer();
+        webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
+        onWindowResize();
+        window.addEventListener( 'resize', onWindowResize, false );
+
+        function onWindowResize(e) {
+            webGLRenderer.setSize( w, h );
+        }
+
+        var video = document.createElement('video');
+        video.loop  = true;
+        video.volume    = 0.01;
+        video.src   = "assets/vcr.mp4";
+        video.play();
+
+        var texture = new THREE.Texture(video);
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+        texture.generateMipmaps = false;
+
+        var geometry    = new THREE.PlaneGeometry(w, h);
+        var material    = new THREE.MeshBasicMaterial({ map : texture });
+        var mesh = new THREE.Mesh( geometry, material );
+        scene.add(mesh);
+
+        // postprocessing
+        composer = new THREE.EffectComposer( webGLRenderer );
+        composer.addPass( new THREE.RenderPass( scene, camera ) );
+
+        var dotScreenEffect = new THREE.ShaderPass( THREE.DotScreenShader );
+        dotScreenEffect.uniforms[ 'scale' ].value = 1;
+        // var d = new Date();
+        // dotScreenEffect.uniforms[ 'time' ].value = d.getTime();
+        composer.addPass( dotScreenEffect );
+
+        var rgbEffect = new THREE.ShaderPass( THREE.RGBShiftShader );
+        rgbEffect.uniforms[ 'amount' ].value = 0.0000;
+        rgbEffect.renderToScreen = true;
+        composer.addPass( rgbEffect );
+
+        render();
+
+        function render() {
+            stats.update();
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                if (texture) texture.needsUpdate = true;
+            }
+            requestAnimationFrame(render);
+            // without post processing
+            // webGLRenderer.render(scene, camera);
+
+            // with post processing
+            composer.render(scene, camera);
+        }
+        $("#WebGL-output").append(webGLRenderer.domElement);
+
+        var controls = function () {
+            this.pauuse = function(){video.pause();};
+            this.plaay = function(){video.play();};
+        };
+
+        var params = new controls();
+        var gui = new dat.GUI();
+        gui.add(params, "pauuse");
+        gui.add(params, "plaay");
+
+        function initStats() {
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+            $("#Stats-output").append(stats.domElement);
+            return stats;
+        }
+    });
+</script>
+</body>
+</html>
+
+
+

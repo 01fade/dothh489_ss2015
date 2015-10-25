@@ -1,3 +1,6 @@
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// Base Code _ in class
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -8,13 +11,12 @@ uniform float u_time;
 
 float circle(vec2 st, float radius) {
     st -= .5;
-    return 1.0-step(radius*.5,dot(st,st)*2.);
+    return 1.0-smoothstep(radius*.4, radius*.5,dot(st,st)*2.);
 }
 
 float stripes(vec2 st) {
-    return step(st.y,st.x);
+    return smoothstep(st.y * 0.1, st.y,st.x);
 }
-
 
 vec2 tile(vec2 st) {
     return floor(st);
@@ -40,18 +42,18 @@ vec2 truchet(vec2 st){
 
 mat2 rotationMatrix(float a) {
     return mat2(vec2(cos(a),-sin(a)),
-               	vec2(sin(a),cos(a)));
+                vec2(sin(a),cos(a)));
 }
 
 void main() {
-	vec2 st = gl_FragCoord.xy/u_resolution;
+    vec2 st = gl_FragCoord.xy/u_resolution;
     vec3 color = vec3(0.);
 
     float d = distance(st,vec2(.5));
-    d = sin(d*3.14*5.-u_time*3.);
+    d = sin(d*3.14*5.-u_time);
 //     color += d;
 
-    st *= 30.;
+    st *= 40.;
     vec2 st_i = floor(st);
     if (mod(st_i.y,2.) == 1.) {
         st.x += .5;
@@ -62,9 +64,7 @@ void main() {
     st_f += .5;
     float pct = stripes(st_f);
     color += pct;
-    color.rg = st_f;
 
-
-	gl_FragColor = vec4(color,1.0);
+    gl_FragColor = vec4(color,1.0);
 }
 

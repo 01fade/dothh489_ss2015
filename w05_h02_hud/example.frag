@@ -1,5 +1,4 @@
-// Code by ndel
-// https://www.shadertoy.com/view/4s2SRt
+// Author _ ndel ( https://www.shadertoy.com/view/4s2SRt )
 
 #ifdef GL_ES
 precision mediump float;

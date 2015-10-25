@@ -1,3 +1,5 @@
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -11,7 +13,7 @@ uniform float u_time;
 // Leo Villareal version4
 // https://vimeo.com/32823553
 
-//Inigo Quiles
+// by Inigo Quiles
 float cubicPulse( float highPos, float width, float x ){
     x = abs(x - highPos);
     if( x>width ) return 0.0;

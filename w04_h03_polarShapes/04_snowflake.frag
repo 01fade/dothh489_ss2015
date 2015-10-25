@@ -1,5 +1,5 @@
-// Author @patriciogv - 2015
-// http://patriciogonzalezvivo.com
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// Base Code _ http://patriciogonzalezvivo.com
 
 #ifdef GL_ES
 precision mediump float;

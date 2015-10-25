@@ -1,5 +1,5 @@
-// Based on Code by ndel
-// https://www.shadertoy.com/view/4s2SRt
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// Base Code _ https://www.shadertoy.com/view/4s2SRt
 
 #ifdef GL_ES
 precision mediump float;

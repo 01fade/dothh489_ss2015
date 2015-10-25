@@ -1,3 +1,5 @@
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -33,7 +35,7 @@ void main() {
     color = mix(color, blue, clamp(sinU + .2, .5, 1.));
 
 
-    float vert = pow(sin(st.x * PI - PI * 0.53), 10.);
+    float vert = pow(sin(st.x * PI - PI * 0.5), 10.);
     float hor = pow(sin(st.y * PI - PI * 0.5), 30.);
     color = mix(color, white, vert);
     color = mix(color, white, hor);

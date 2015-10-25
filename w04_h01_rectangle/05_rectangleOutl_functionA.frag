@@ -1,4 +1,6 @@
-//rounded corners
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// rounded corners
+
 #ifdef GL_ES
 precision mediump float;
 #endif
