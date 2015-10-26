@@ -16,11 +16,13 @@
     <!-- shaders -->
     <script src="js/shaders/DotScreenShader.js"></script>
     <script src="js/shaders/RGBShiftShader.js"></script>
+    <script src="js/shaders/pattern.js"></script>
     <!-- stats, gui -->
     <script type="text/javascript" src="js/libs/stats.min.js"></script>
     <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; }
+        body { margin: 0; overflow: hidden; background-color: #000;}
+        #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto;}
         #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
     </style>
 </head>
@@ -30,19 +32,12 @@
 <script type="text/javascript">
     $(function () {
         var stats = initStats();
+        var clock = new THREE.Clock();
         var scene = new THREE.Scene();
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var camera  = new THREE.OrthographicCamera(w / - 2, w / 2, h / 2, h / - 2, -10000, 10000 )
+        var camera  = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 )
         camera.position.z = 3;
         var webGLRenderer = new THREE.WebGLRenderer();
         webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
-        onWindowResize();
-        window.addEventListener( 'resize', onWindowResize, false );
-
-        function onWindowResize(e) {
-            webGLRenderer.setSize( w, h );
-        }
 
         var video = document.createElement('video');
         video.loop  = true;
@@ -56,25 +51,47 @@
         texture.format = THREE.RGBFormat;
         texture.generateMipmaps = false;
 
-        var geometry    = new THREE.PlaneGeometry(w, h);
+        var geometry    = new THREE.PlaneGeometry(window.innerWidth, window.innerWidth * 9/16);
         var material    = new THREE.MeshBasicMaterial({ map : texture });
         var mesh = new THREE.Mesh( geometry, material );
         scene.add(mesh);
+
+        onWindowResize();
+        window.addEventListener( 'resize', onWindowResize, false );
+
+        function onWindowResize(e) {
+            webGLRenderer.setSize(window.innerWidth, window.innerWidth * 9/16);
+        }
+
+        var controls = new function () {
+            this.pauuse = function(){video.pause();};
+            this.plaay = function(){video.play();};
+            this.scale = 200;
+        };
+
+        var gui = new dat.GUI();
+        gui.add(controls, "pauuse");
+        gui.add(controls, "plaay");
+        gui.add(controls, "scale",150 ,250).step(10).listen().onChange(function(){
+            pattern.uniforms[ 'scale' ].value = controls.scale;
+        });
 
         // postprocessing
         composer = new THREE.EffectComposer( webGLRenderer );
         composer.addPass( new THREE.RenderPass( scene, camera ) );
 
-        var dotScreenEffect = new THREE.ShaderPass( THREE.DotScreenShader );
-        dotScreenEffect.uniforms[ 'scale' ].value = 1;
-        // var d = new Date();
-        // dotScreenEffect.uniforms[ 'time' ].value = d.getTime();
-        composer.addPass( dotScreenEffect );
+        // var dotScreenEffect = new THREE.ShaderPass( THREE.DotScreenShader );
+        // dotScreenEffect.uniforms[ 'scale' ].value = 4;
+        // composer.addPass( dotScreenEffect );
 
-        var rgbEffect = new THREE.ShaderPass( THREE.RGBShiftShader );
-        rgbEffect.uniforms[ 'amount' ].value = 0.0000;
-        rgbEffect.renderToScreen = true;
-        composer.addPass( rgbEffect );
+        var pattern = new THREE.ShaderPass( THREE.Pattern );
+        pattern.uniforms[ 'scale' ].value = controls.scale;
+        pattern.renderToScreen = true;
+        composer.addPass( pattern );
+
+        // var rgbEffect = new THREE.ShaderPass( THREE.RGBShiftShader );
+        // rgbEffect.uniforms[ 'amount' ].value = 0.0000;
+        // composer.addPass( rgbEffect );
 
         render();
 
@@ -83,24 +100,14 @@
             if (video.readyState === video.HAVE_ENOUGH_DATA) {
                 if (texture) texture.needsUpdate = true;
             }
-            requestAnimationFrame(render);
-            // without post processing
-            // webGLRenderer.render(scene, camera);
 
-            // with post processing
-            composer.render(scene, camera);
+            requestAnimationFrame(render);
+            pattern.uniforms[ 'time' ].value = clock.getElapsedTime() * 0.5;
+
+            // webGLRenderer.render(scene, camera);
+            composer.render(scene, camera); // with post processing
         }
         $("#WebGL-output").append(webGLRenderer.domElement);
-
-        var controls = function () {
-            this.pauuse = function(){video.pause();};
-            this.plaay = function(){video.play();};
-        };
-
-        var params = new controls();
-        var gui = new dat.GUI();
-        gui.add(params, "pauuse");
-        gui.add(params, "plaay");
 
         function initStats() {
             var stats = new Stats();

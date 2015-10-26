@@ -1,12 +1,6 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- *
- * Dot screen shader
- * based on glfx.js sepia shader
- * https://github.com/evanw/glfx.js
- */
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
 
-THREE.DotScreenShader = {
+THREE.Vignette = {
 
 	uniforms: {
 
@@ -15,7 +9,7 @@ THREE.DotScreenShader = {
 		"tSize":    { type: "v2", value: new THREE.Vector2( 256, 256 ) },
 		"center":   { type: "v2", value: new THREE.Vector2( 0.5, 0.5 ) },
 		"angle":    { type: "f", value: 1.57 },
-		"scale":    { type: "f", value: 1.0 }
+		"scale":    { type: "f", value: 4.0 }
 
 	},
 
@@ -44,24 +38,16 @@ THREE.DotScreenShader = {
 
 		"varying vec2 vUv;",
 
-		"float pattern() {",
-
-			"float s = sin( angle ), c = cos( angle );",
-
-			"vec2 tex = vUv * tSize * sin(time) - center;",
-			"vec2 point = vec2( c * tex.x - s * tex.y, s * tex.x + c * tex.y ) * scale;",
-
-			"return ( sin( point.x ) * sin( point.y ) ) * 4.0;",
-
-		"}",
-
-		"void main() {",
-
+		"void main(){",
+			"vec2 st = vec2(vUv.x, vUv.x);",
 			"vec4 color = texture2D( tDiffuse, vUv );",
 			"float average = ( color.r + color.g + color.b ) / 3.0;",
-			"gl_FragColor = vec4( vec3( average * 10.0 - 5.0 + pattern() ), color.a );",
 
-		"}"
+		    "float pct = 0.0;",
+		    "vec2 toCenter = vec2(0.5)-st;",
+		    "pct = length(toCenter) * 1.5;",
+			"gl_FragColor = vec4( vec3( average * (1.-pct) ), color.a );",
+	"}"
 
 	].join( "\n" )
 
