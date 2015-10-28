@@ -26,7 +26,8 @@ float plot(vec2 st, float pct){
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
 
-    float y = cubicPulse(0.5, 0.1, st.x) * 0.5;
+    st *= 20.;
+    float y = cubicPulse(0.5, 0.1, fract(st.x)) * 0.5;
 
     vec3 color = vec3(y);
 

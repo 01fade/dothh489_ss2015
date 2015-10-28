@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pattern 5C</title>
+    <!-- Author _ Hang Do Thi Duc ( 22-8miles.com ) -->
+    <!-- Code Base _ https://github.com/josdirksen/learning-threejs - Example 10.11 - Video texture-->
+    <!-- libaries -->
+    <script type="text/javascript" src="js/libs/three.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <!-- post processing required-->
+    <script type="text/javascript" src="js/postprocessing_required/CopyShader.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/EffectComposer.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/RenderPass.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/MaskPass.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/ShaderPass.js"></script>
+    <!-- post processing shaders -->
+    <script src="js/postprocessing_shaders/DotScreenShader.js"></script>
+    <script src="js/postprocessing_shaders/RGBShiftShader.js"></script>
+    <script src="js/postprocessing_shaders/pattern5c.js"></script>
+    <!-- stats, gui -->
+    <script type="text/javascript" src="js/libs/stats.min.js"></script>
+    <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000;}
+        #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto;}
+        #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
+    </style>
+</head>
+<body>
+<div id="Stats-output"></div>
+<div id="WebGL-output"></div>
+<script type="text/javascript">
+    $(function () {
+        var stats = initStats();
+        var clock = new THREE.Clock();
+        var scene = new THREE.Scene();
+        var camera  = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 )
+        camera.position.z = 3;
+        var webGLRenderer = new THREE.WebGLRenderer();
+        webGLRenderer.setClearColor(new THREE.Color(0x000000, 1.0));
+
+        var video = document.createElement('video');
+        video.loop  = true;
+        video.volume    = 0.01;
+        video.src   = "assets/vcr.mp4";
+        video.play();
+
+        var texture = new THREE.Texture(video);
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+        texture.generateMipmaps = false;
+
+        var geometry    = new THREE.PlaneGeometry(window.innerWidth, window.innerWidth * 360/640);
+        var material    = new THREE.MeshBasicMaterial({ map : texture });
+        var mesh = new THREE.Mesh( geometry, material );
+        scene.add(mesh);
+
+        onWindowResize();
+        window.addEventListener( 'resize', onWindowResize, false );
+
+        function onWindowResize(e) {
+            webGLRenderer.setSize(window.innerWidth, window.innerWidth * 360/640);
+        }
+
+        ////////////////////////////////////////
+        // GUI
+        ////////////////////////////////////////
+        var controls = new function () {
+            this.pauuse = function(){video.pause();};
+            this.plaay = function(){video.play();};
+            this.linesScale = 10;
+        };
+        var gui = new dat.GUI();
+        gui.add(controls, "pauuse").name("Pause Video");
+        gui.add(controls, "plaay").name("Play Video");
+        var f1 = gui.addFolder('Pattern 5C');
+        f1.add(controls, "linesScale",5 ,60).step(0.5).name("Amount").listen().onChange(function(){
+            rectangle.uniforms[ 'scale' ].value = controls.linesScale;
+        });
+        f1.open();
+        gui.close();
+
+        ////////////////////////////////////////
+        // post processing
+        ////////////////////////////////////////
+        composer = new THREE.EffectComposer( webGLRenderer );
+        composer.addPass( new THREE.RenderPass( scene, camera ) );
+
+        var rectangle = new THREE.ShaderPass( THREE.Pattern5c );
+        rectangle.uniforms[ 'scale' ].value = controls.linesScale;
+        composer.addPass( rectangle );
+
+        var rgbEffect = new THREE.ShaderPass( THREE.RGBShiftShader );
+        rgbEffect.uniforms[ 'amount' ].value = 0.0001;
+        rgbEffect.renderToScreen = true;
+        composer.addPass( rgbEffect );
+
+        ////////////////////////////////////////
+        // render loop
+        ////////////////////////////////////////
+        render();
+        function render() {
+            stats.update();
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                if (texture) texture.needsUpdate = true;
+            }
+            requestAnimationFrame(render);
+            rectangle.uniforms[ 'time' ].value = clock.getElapsedTime() * 0.5;
+
+            // webGLRenderer.render(scene, camera);
+            composer.render(scene, camera); // with post processing
+        }
+        $("#WebGL-output").append(webGLRenderer.domElement);
+
+        function initStats() {
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+            $("#Stats-output").append(stats.domElement);
+            return stats;
+        }
+    });
+</script>
+</body>
+</html>
+
+
+

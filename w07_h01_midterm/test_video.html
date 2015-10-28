@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Video</title>
+    <title>Video Test - not responsive</title>
     <!-- Author _ Hang Do Thi Duc ( 22-8miles.com ) -->
     <!-- Code Base _ https://github.com/josdirksen/learning-threejs - Example 10.11 - Video texture-->
     <script type="text/javascript" src="js/libs/three.min.js"></script>
@@ -71,8 +71,8 @@
 
         var params = new controls();
         var gui = new dat.GUI();
-        gui.add(params, "pauuse");
-        gui.add(params, "plaay");
+        gui.add(params, "pauuse").name("Pause Video");
+        gui.add(params, "plaay").name("Play Video");
 
         function initStats() {
             var stats = new Stats();

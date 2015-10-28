@@ -44,6 +44,7 @@ void main() {
 
     float d = distance(st, vec2(0.5));
     d = sin(d*3.14*5.-u_time*3.);
+    d = st.x * st.y * abs(sin(u_time * 0.5));
 
     st *= 20.;
     vec2 st_i = floor(st);

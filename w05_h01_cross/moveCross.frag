@@ -32,6 +32,6 @@ void main(){
     vec2 translate = vec2(f * 0.5 + 0.5, sin(u_time * 0.1) + 0.3);
     st += translate * sin(st.x) * 0.1;
 
-    color += vec3(cross(st,0.25));
+    color += vec3(cross(st,0.5));
     gl_FragColor = vec4(color,1.0);
 }

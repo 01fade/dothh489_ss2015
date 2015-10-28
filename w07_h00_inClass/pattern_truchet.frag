@@ -42,14 +42,14 @@ void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
     vec3 color = vec3(0.);
 
-//     st *= 10.;
+    // st *= 10.;
 
 //     st = truchet(st*6.);
 //     st = truchet(st*3.);
     st = truchet(st*3.);
-    st = brick(st);
-    st = truchet(st*1.);
-    st = truchet(st*2.);
+    // st = brick(st);
+    // st = truchet(st*1.);
+    // st = truchet(st*2.);
 
     vec2 st_f = fract(st);
 
