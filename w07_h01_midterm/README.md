@@ -15,13 +15,13 @@ Tested in Chrome, Safari and Firefox
 [Pattern2](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern2.html)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3a-s.png)
-[Pattern3a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3a.html) - These are actually supposed to be triangles see orginal shader in the [fragment shaders folder](/w07_h01_midterm/fragShaders/patterns/p03a.frag)
+[Pattern3a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3a.html) - These are actually supposed to be triangles, see orginal shader in the [fragment shaders folder](/w07_h01_midterm/fragShaders/patterns/p03a.frag)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3b-s.png)
-[Pattern3b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3b.html)
+[Pattern3b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3b.html) - These are also supposed to be triangles, see orginal shader in the [fragment shaders folder](/w07_h01_midterm/fragShaders/patterns/p03b.frag)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4a-s.png)
-[Pattern4a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern4a.html)
+[Pattern4a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern4a.html) - These are  supposed to be hexagons, see orginal shader in the [fragment shaders folder](/w07_h01_midterm/fragShaders/patterns/p03a.frag)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4b-s.png)
 [Pattern4b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern4b.html)
