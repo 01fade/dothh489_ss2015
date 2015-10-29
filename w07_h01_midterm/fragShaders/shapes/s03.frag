@@ -21,7 +21,7 @@ float pattern(vec2 st){
   float r = TWO_PI/3.;
   // Shaping function that modulate the distance
   d = cos(floor(.5+a/r)*r-a)*length(st);
-  float t = .3 - 0.3 * abs(sin(u_time));
+  float t = .39 - 0.05 * abs(sin(u_time));
   return 1.-(1.-smoothstep(t,t,d) + smoothstep(.4,.4,d));
 }
 
