@@ -75,9 +75,9 @@
         gui.add(controls, "pauuse").name("Pause Video");
         gui.add(controls, "plaay").name("Play Video");
         var f1 = gui.addFolder('Pattern 4B');
-        f1.add(controls, "linesScale",1 ,10).step(0.5).name("Amount").listen().onChange(function(){
-            rectangle.uniforms[ 'scale' ].value = controls.linesScale;
-        });
+        // f1.add(controls, "linesScale",1 ,10).step(0.5).name("Amount").listen().onChange(function(){
+        //     rectangle.uniforms[ 'scale' ].value = controls.linesScale;
+        // });
         f1.open();
         gui.close();
 
