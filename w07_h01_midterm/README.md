@@ -15,7 +15,7 @@ Tested in Chrome, Safari and Firefox
 [Pattern2](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern2.html)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3a-s.png)
-[Pattern3a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3a.html)
+[Pattern3a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3a.html) - These are actually supposed to be triangles see orginal shader in the [fragment shaders folder](/fragShaders/patterns/p03a.frag)
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3b-s.png)
 [Pattern3b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3b.html)
