@@ -12,3 +12,4 @@ Shapes and patterns custom functions for an experimental interactive visual musi
 - shaders/effect on same page - all in 1 file
 - file names for better organization
 - mouse interaction
+- sound reactive
