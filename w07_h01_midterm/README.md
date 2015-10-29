@@ -5,34 +5,34 @@ Shapes and patterns custom functions for an experimental interactive visual musi
 
 Tested in Chrome, Safari and Firefox
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1a.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1a-s.png)
 [Pattern1a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern1a.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1b.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1b-s.png)
 [Pattern1b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern1b.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/2.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/2-s.png)
 [Pattern2](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern2.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3a.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3a-s.png)
 [Pattern3a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3a.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3b.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/3b-s.png)
 [Pattern3b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern3b.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4a.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4a-s.png)
 [Pattern4a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern4a.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4b.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/4b-s.png)
 [Pattern4b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern4b.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5a.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5a-s.png)
 [Pattern5a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern5a.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5b.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5b-s.png)
 [Pattern5b](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern5b.html)
 
-![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5c.png)
+![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/5c-s.png)
 [Pattern5c](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern5c.html)
 
 
