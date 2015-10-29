@@ -9,9 +9,9 @@ Shapes and patterns custom functions for an experimental interactive visual musi
 [dat.gui for Three.js](http://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage)
 
 ##Need to fix/add
-- shaders/effect on same page - all in 1 file
+- shaders/effects on same page to choose - all in 1 file
 - file names for better organization
 - mouse interaction
 - sound reactive
 
-# Web link coming soon...
+###Web link coming soon...
