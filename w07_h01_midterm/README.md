@@ -3,7 +3,8 @@ Shapes and patterns custom functions for an experimental interactive visual musi
 
 ## Demo
 
-Tested in Chrome, Safari and Firefox
+Tested in Chrome, Safari and Firefox.
+To see all patterns on one site visit [this page](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/).
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1a-s.png)
 [Pattern1a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern1a.html)

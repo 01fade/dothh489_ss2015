@@ -1,6 +1,6 @@
 // Author _ Hang Do Thi Duc ( 22-8miles.com )
 
-THREE.Rectangle = {
+THREE.Pattern2 = {
 
 	uniforms: {
 

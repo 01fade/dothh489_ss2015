@@ -87,7 +87,7 @@
         composer = new THREE.EffectComposer( webGLRenderer );
         composer.addPass( new THREE.RenderPass( scene, camera ) );
 
-        var rectangle = new THREE.ShaderPass( THREE.Rectangle );
+        var rectangle = new THREE.ShaderPass( THREE.Pattern2 );
         rectangle.uniforms[ 'scale' ].value = controls.linesScale;
         composer.addPass( rectangle );
 

@@ -69,8 +69,8 @@ THREE.Pattern4b = {
 
         "float pattern(vec2 st){",
         "    // squish for 16:9 video",
-        "    st.y *= 9.;",
-        "    st.x *= 16.;",
+        "    st.y *= 9. * scale;",
+        "    st.x *= 16. * scale;",
         "    st = move(st);",
         "    vec2 st_f = fract(st);",
         "    float pct = 0.0;",
