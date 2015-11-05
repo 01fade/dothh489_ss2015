@@ -4,7 +4,9 @@ Shapes and patterns custom functions for an experimental interactive visual musi
 ## Demo
 
 Tested in Chrome, Safari and Firefox.
-To see all patterns on one site visit [this page](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/).
+To see all patterns on one site visit [this page](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/). 
+
+A preview with separate links are below.
 
 ![image](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/assets/img/1a-s.png)
 [Pattern1a](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/pattern1a.html)
@@ -45,7 +47,6 @@ To see all patterns on one site visit [this page](http://hangdothiduc.de/mfadt/f
 [dat.gui for Three.js](http://workshop.chromeexperiments.com/examples/gui/#1--Basic-Usage)
 
 ##Need to fix/add
-- shaders/effects on same page to choose - all in 1 file
-- file names for better organization
 - mouse interaction
 - sound reactive
+- file names for better organization
