@@ -1,5 +1,5 @@
 # Midterm Shader Studio 2015
-Shapes and patterns custom functions for an experimental interactive visual music video.
+Shapes and patterns custom functions for an [experimental interactive visual music video](http://hangdothiduc.de/mfadt/fall15/vcr-shaders/). Song and Video by The xx [Source](https://www.youtube.com/watch?v=gI2eO_mNM88&ab_channel=YoungTurks).
 
 ## Demo
 
