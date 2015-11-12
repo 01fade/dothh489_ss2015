@@ -45,10 +45,10 @@ void main() {
     // st *= 10.;
 
 //     st = truchet(st*6.);
-//     st = truchet(st*3.);
+    st = truchet(st*3.);
     st = truchet(st*3.);
     // st = brick(st);
-    // st = truchet(st*1.);
+    st = truchet(st*1.);
     // st = truchet(st*2.);
 
     vec2 st_f = fract(st);

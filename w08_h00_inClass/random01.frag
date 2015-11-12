@@ -15,6 +15,6 @@ void main(){
     st *= 10.;
     vec2 st_i = floor(st);
     float time = floor(u_time);
-    vec3 color = vec3(random(st_i.x + time));
-	gl_FragColor = vec4(color,1.0);
+    float pct = random(st_i.x + time);
+	gl_FragColor = vec4(vec3(pct),1.0);
 }
