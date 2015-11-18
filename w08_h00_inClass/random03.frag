@@ -6,6 +6,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+// 1D random
 float random (float x) {
     return fract(sin(x)*10e5);
 }
