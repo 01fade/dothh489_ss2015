@@ -28,6 +28,7 @@ float noise (float x) {
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
     st *= 20.;
+    st.x += u_time;
     float pct = plot(st, noise(st.x));
     gl_FragColor = vec4( vec3(pct) ,1.0);
 }
