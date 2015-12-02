@@ -25,11 +25,13 @@ void main () {
     // Scale the coordenates to a single frame
     st = st/nRes;
     // Calculate the offset in cols and rows
-    float timeX = u_time*15.;
+    float timeX = u_time*12.;
     float timeY = floor(timeX/float(col));
     vec2 offset = vec2( floor(timeX)/nRes.x,
                         1.0-(floor(timeY)/nRes.y) );
     st = fract(st+offset);
+    st *= 10.;
     color = texture2D(u_tex0,st);
+
     gl_FragColor = color;
 }

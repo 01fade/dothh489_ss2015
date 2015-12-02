@@ -1,11 +1,14 @@
+// Author @patriciogv - 2015
+// http://patriciogonzalezvivo.com
+
 #ifdef GL_ES
 precision mediump float;
 #endif
 
 uniform sampler2D u_tex0;
 uniform vec2 u_tex0Resolution;
-// 2.jpg - Inception sprite
-int col = 3;
+// 3.jpg - Mona Lisa
+int col = 4;
 int row = 3;
 
 uniform vec2 u_resolution;
