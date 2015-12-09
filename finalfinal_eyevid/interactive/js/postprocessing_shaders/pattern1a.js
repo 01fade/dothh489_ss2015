@@ -1,69 +1,66 @@
 // Author _ Hang Do Thi Duc ( 22-8miles.com )
-
 THREE.Pattern1a = {
-
     uniforms: {
-
-        "time":     { type: "f", value: 10.0},
+        "time":     { type: "f", value: 0.0},
+        "mouse":     { type: "v2", value: null},
         "tDiffuse": { type: "t", value: null },
-        "scale":    { type: "f", value: 15.0 },
+        "scale":    { type: "f", value: 0.0 },
         "pi":       { type: "f", value: 3.14159265359},
-        "hpi":       { type: "f", value: 3.14159265359/2.0}
-
     },
 
     vertexShader: [
-
         "varying vec2 vUv;",
-
         "void main() {",
-
             "vUv = uv;",
             "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
         "}"
-
     ].join( "\n" ),
-
     fragmentShader: [
-
         "uniform float time;",
+        "uniform vec2 mouse;",
         "uniform float scale;",
         "uniform float pi;",
-        "uniform float hpi;",
         "uniform sampler2D tDiffuse;",
         "varying vec2 vUv;",
 
-        "float plot (vec2 st, float pct){",
-          "return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);",
+        "vec2 random(vec2 st){",
+        "    st = vec2( dot(st,vec2(127.1,311.7)),",
+        "              dot(st,vec2(269.5,183.3)) );",
+        "    return -1.0 + 2.0*fract(sin(st)*43758.5453123);",
         "}",
 
-        "//  Function from Iñigo Quiles",
-        "//  www.iquilezles.org/www/articles/functions/functions.htm",
-        "float pcurve( float x, float a, float b ){",
-            "float k = pow(a+b,a+b) / (pow(a,a)*pow(b,b));",
-            "return k * pow( x, a ) * pow( 1.0-x, b );",
+        "float noise(vec2 st) {",
+        "    vec2 i = floor(st);",
+        "    vec2 f = fract(st);",
+
+        "    vec2 u = f*f*(3.0-2.0*f);",
+        "    return mix( mix( dot( random(i + vec2(0.0,0.0) ), f - vec2(0.0,0.0) ),",
+        "                     dot( random(i + vec2(1.0,0.0) ), f - vec2(1.0,0.0) ), u.x),",
+        "                mix( dot( random(i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ),",
+        "                     dot( random(i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);",
         "}",
 
-        "float pattern(vec2 st) {",
-            "st *= scale;",
-            "vec2 st_f = fract(st);",
-            "float pct = 0.0;",
-            "pct = plot(st_f, pcurve(fract(st.x), 2., 1. + abs(sin(time * 0.5))) * sin(time * 0.5) * 0.1 + 0.1);",
-            "pct += plot(st_f, pcurve(fract(st.x), 2., 1. + abs(sin(time * 0.5))) * sin(time * 0.5) * 0.2 + 0.3);",
-            "pct += plot(st_f, pcurve(fract(st.x), 2., 1. + abs(sin(time * 0.5))) * sin(time * 0.5) * 0.3 + 0.5);",
-            "pct += plot(st_f, pcurve(fract(st.x), 2., 1. + abs(sin(time * 0.5))) * sin(time * 0.5) * 0.4 + 0.7);",
-            "pct += plot(st_f, pcurve(fract(st.x), 2., 1. + abs(sin(time * 0.5))) * sin(time * 0.5) * 0.5 + 0.9);",
-            "return pct;",
+        "vec3 clr(vec2 st, float size, float rays, float smoothstart, float smoothend, float strength, float speed, vec2 mouse) {",
+        "    vec3 color = vec3(0.);",
+        "    st -= mouse;",
+        "    float r = length(st);",
+        "    float a = atan(st.y,st.x);",
+        "    a += noise(vec2(time*0.01));",
+        "    float pct = size + noise(vec2(sin(a)*rays,cos(a))) * (.2*(sin(a+time*speed)*strength));",
+        "    color += smoothstep(pct, pct+smoothstart,r)-smoothstep(pct, pct+smoothend,r);",
+        "    return color;",
         "}",
 
-        "void main(){",
-            "vec4 color = texture2D( tDiffuse, vUv );",
-            "float average = ( color.r + color.g + color.b ) / 3.0;",
+        "void main () {",
 
-            "gl_FragColor = vec4(vec3( average * 1.2 + pattern(vUv) ), color.a);",
-    "}"
+        "    vec2 offset = vec2(clr(vUv, 0.2, 100., 0.2, 0.5, 0.2, 2., mouse));",
+        "    vec3 colorA = texture2D(tDiffuse,vUv).rgb;",
+        "    vec3 colorB = texture2D(tDiffuse,vUv+offset).rgb;",
+
+        "    vec3 color = mix(colorA, colorB, 0.8);",
+
+        "    gl_FragColor = vec4(color, 1.0);",
+        "}",
 
     ].join( "\n" )
-
 };

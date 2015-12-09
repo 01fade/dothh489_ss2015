@@ -33,15 +33,26 @@
     var camera, scene, renderer;
     var video, texture, videoMaterial;
     var composer;
+    var mouse = {"x": 0, "y": 0};
     var shaderTime = 0;
-    var pattern1aParams, pattern1bParams, pattern2Params, pattern3aParams, pattern3bParams, pattern4aParams, pattern4bParams, pattern5aParams, pattern5bParams, pattern5cParams, rgbParams;
+    var pattern1aParams, rgbParams;
 
-    var rgbPass, pattern1aPass, pattern1bPass, pattern2Pass, pattern3aPass, pattern3bPass, pattern4aPass, pattern4bPass, pattern5aPass, pattern5bPass, pattern5cPass;
+    var pattern1aPass, rgbPass;
     var renderPass, copyPass;
     var gui, controls, stats;
 
-    init();
-    animate();
+    $(window).on("load", function() {
+        init();
+        animate();
+        // workaround for remove pixelated video
+        $(".folder:last input").trigger("click");
+
+        $( document ).on( "mousemove", function( event ) {
+          mouse.x = event.pageX/window.innerWidth;
+          mouse.y = (window.innerHeight - event.pageY)/window.innerHeight;
+          // console.log(mouse.x, mouse.y);
+        });
+    })
 
     function init(){
         scene = new THREE.Scene();
@@ -52,9 +63,9 @@
         $("#WebGL-output").append(renderer.domElement);
 
         video = document.createElement('video');
-        video.loop  = true;
+        video.loop  = false;
         video.volume    = 0.0;
-        video.src   = "assets/output.mp4";
+        video.src   = "assets/eyevid.mp4";
         video.play();
 
         texture = new THREE.Texture(video);
@@ -71,15 +82,6 @@
         //Create Shader Passes
         renderPass = new THREE.RenderPass( scene, camera );
         pattern1aPass = new THREE.ShaderPass( THREE.Pattern1a );
-        // pattern1bPass = new THREE.ShaderPass( THREE.Pattern1b );
-        // pattern2Pass = new THREE.ShaderPass( THREE.Pattern2 );
-        // pattern3aPass = new THREE.ShaderPass( THREE.Pattern3a );
-        // pattern3bPass = new THREE.ShaderPass( THREE.Pattern3b );
-        // pattern4aPass = new THREE.ShaderPass( THREE.Pattern4a );
-        // pattern4bPass = new THREE.ShaderPass( THREE.Pattern4b );
-        // pattern5aPass = new THREE.ShaderPass( THREE.Pattern5a );
-        // pattern5bPass = new THREE.ShaderPass( THREE.Pattern5b );
-        // pattern5cPass = new THREE.ShaderPass( THREE.Pattern5c );
         rgbPass = new THREE.ShaderPass( THREE.RGBShiftShader );
         copyPass = new THREE.ShaderPass( THREE.CopyShader );
 
@@ -87,21 +89,11 @@
         controls = new function () {
             this.pauuse = function(){video.pause();};
             this.plaay = function(){video.play();};
-            this.speed = 0.8;
+            this.speed = 0.5;
         };
 
         pattern1aParams = { show: false, linesScale: 16 };
-        // pattern1bParams = { show: false, linesScale: 5 };
-        // pattern2Params = { show: false, linesScale: 200 };
-        // pattern3aParams = { show: false, linesScale: 9 };
-        // pattern3bParams = { show: false, linesScale: 2 };
-        // pattern4aParams = { show: false, linesScale: 5 };
-        // pattern4bParams = { show: false, linesScale: 1.5 };
-        // pattern5aParams = { show: false, linesScale: 10 };
-        // pattern5bParams = { show: false, linesScale: 10 };
-        // pattern5cParams = { show: false, linesScale: 10 };
-
-        rgbParams = { show: false, amount: 0.005 };
+        rgbParams = { show: false, amount: 0.001 };
 
 
         gui = new dat.GUI();
@@ -113,61 +105,18 @@
         f1.add(pattern1aParams, "linesScale",10 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
         f1.open();
 
-        // var f2 = gui.addFolder('1b - Organic Lines');
-        // f2.add(pattern1bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f2.add(pattern1bParams, "linesScale",1 ,15).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        // f2.open();
-
-        // var f3 = gui.addFolder('2 - Hypnotic');
-        // f3.add(pattern2Params, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f3.add(pattern2Params, "linesScale",150 ,250).step(10).name("Amount").listen().onChange(onParamsChange);
-        // f3.open();
-
-        // var f4 = gui.addFolder('3a - Vertical Shift');
-        // f4.add(pattern3aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f4.add(pattern3aParams, "linesScale",2 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        // f4.open();
-
-        // var f5 = gui.addFolder('3b - Spiral');
-        // f5.add(pattern3bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f5.add(pattern3bParams, "linesScale",1 ,5).step(0.1).name("Scale").listen().onChange(onParamsChange);
-        // f5.open();
-
-        // var f6 = gui.addFolder('4a - Deconstruction');
-        // f6.add(pattern4aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // // f6.add(pattern4aParams, "linesScale",1 ,10).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        // f6.open();
-
-        // var f7 = gui.addFolder('4b - Random Spirals');
-        // f7.add(pattern4bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f7.add(pattern4bParams, "linesScale",1 ,2).step(0.1).name("Amount").listen().onChange(onParamsChange);
-        // f7.open();
-
-        // var f8 = gui.addFolder('5a - Inspired by Japan');
-        // f8.add(pattern5aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f8.add(pattern5aParams, "linesScale",5 ,40).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        // f8.open();
-
-        // var f9 = gui.addFolder('5b - Noisy Japan');
-        // f9.add(pattern5bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f9.add(pattern5bParams, "linesScale",5 ,30).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        // f9.open();
-
-        // var f10 = gui.addFolder('5c - Noisy Japan Shift');
-        // f10.add(pattern5cParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        // f10.add(pattern5cParams, "linesScale",5 ,60).step(1).name("Amount").listen().onChange(onParamsChange);
-        // f10.open();
-
         var f11 = gui.addFolder('RGB Shift (Three.js)');
         f11.add(rgbParams, "show", true).name("Show").listen().onChange(onToggleShaders);
         f11.add(rgbParams, "amount",0.0 ,0.01).name("Amount").listen().onChange(onParamsChange);
-        f11.open();
+        // f11.open();
 
         gui.add(controls, "speed", 0, 2).name("Speed");
-        // gui.close();
+        gui.close();
 
         onToggleShaders();
         onParamsChange();
+        // once init mouse uniforms type
+        pattern1aPass.uniforms[ "mouse" ].type = "v2";
 
         window.addEventListener( 'resize', onWindowResize, false );
         onWindowResize();
@@ -189,38 +138,9 @@
         if (pattern1aParams.show == true){
             composer.addPass( pattern1aPass );
         }
-        // if (pattern1bParams.show == true){
-        //     composer.addPass( pattern1bPass );
-        // }
-        // if (pattern2Params.show == true){
-        //     composer.addPass( pattern2Pass );
-        // }
-        // if (pattern3aParams.show == true){
-        //     composer.addPass( pattern3aPass );
-        // }
-        // if (pattern3bParams.show == true){
-        //     composer.addPass( pattern3bPass );
-        // }
-        // if (pattern4aParams.show == true){
-        //     composer.addPass( pattern4aPass );
-        // }
-        // if (pattern4bParams.show == true){
-        //     composer.addPass( pattern4bPass );
-        // }
-        // if (pattern5aParams.show == true){
-        //     composer.addPass( pattern5aPass );
-        // }
-        // if (pattern5bParams.show == true){
-        //     composer.addPass( pattern5bPass );
-        // }
-        // if (pattern5cParams.show == true){
-        //     composer.addPass( pattern5cPass );
-        // }
-
         if (rgbParams.show == true){
             composer.addPass( rgbPass );
         }
-
         copyPass.renderToScreen = true;
         composer.addPass( copyPass );
     }
@@ -231,29 +151,13 @@
         rgbPass.uniforms[ "amount" ].value = rgbParams.amount;
 
         pattern1aPass.uniforms[ "scale" ].value = pattern1aParams.linesScale;
-        // pattern1bPass.uniforms[ "scale" ].value = pattern1bParams.linesScale;
-        // pattern2Pass.uniforms[ "scale" ].value = pattern2Params.linesScale;
-        // pattern3aPass.uniforms[ "scale" ].value = pattern3aParams.linesScale;
-        // pattern3bPass.uniforms[ "scale" ].value = pattern3bParams.linesScale;
-        // pattern4bPass.uniforms[ "scale" ].value = pattern4bParams.linesScale;
-        // pattern5aPass.uniforms[ "scale" ].value = pattern5aParams.linesScale;
-        // pattern5bPass.uniforms[ "scale" ].value = pattern5bParams.linesScale;
-        // pattern5cPass.uniforms[ "scale" ].value = pattern5cParams.linesScale;
-
     }
 
     function animate() {
         shaderTime += 0.05 * controls.speed;
         pattern1aPass.uniforms[ 'time' ].value =  shaderTime;
-        // pattern1bPass.uniforms[ 'time' ].value =  shaderTime;
-        // pattern2Pass.uniforms[ "time" ].value = shaderTime * 0.5;
-        // pattern3aPass.uniforms[ "time" ].value = shaderTime;
-        // pattern3bPass.uniforms[ "time" ].value = shaderTime;
-        // pattern4aPass.uniforms[ "time" ].value = shaderTime;
-        // pattern4bPass.uniforms[ "time" ].value = shaderTime;
-        // pattern5aPass.uniforms[ "time" ].value = shaderTime * 0.5;
-        // pattern5bPass.uniforms[ "time" ].value = shaderTime;
-        // pattern5cPass.uniforms[ "time" ].value = shaderTime;
+        pattern1aPass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x, mouse.y );
+
 
         if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
             if ( texture ) texture.needsUpdate = true;
