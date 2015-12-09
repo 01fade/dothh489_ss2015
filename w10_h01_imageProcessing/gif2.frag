@@ -8,6 +8,9 @@ uniform vec2 u_tex0Resolution;
 int col = 3;
 int row = 3;
 
+uniform sampler2D u_tex1;
+uniform vec2 u_tex1Resolution;
+
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
@@ -31,7 +34,11 @@ void main () {
                         1.0-(floor(timeY)/nRes.y) );
     st = fract(st+offset);
     st *= 10.;
-    color = texture2D(u_tex0,st);
+
+    vec2 noise = vec2(0.0);
+    noise.x = texture2D(u_tex1,st).r*(0.02+0.02*sin(u_time));
+
+    color = texture2D(u_tex0,st+noise);
 
     gl_FragColor = color;
 }

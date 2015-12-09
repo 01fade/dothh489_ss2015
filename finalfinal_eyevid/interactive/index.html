@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shaders + The xx (VCR)</title>
+    <!-- Author _ Hang Do Thi Duc ( 22-8miles.com ) -->
+    <!-- Code Base _ https://github.com/josdirksen/learning-threejs - Example 10.11 - Video texture-->
+    <!-- libaries -->
+    <script type="text/javascript" src="js/libs/three.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <!-- post processing required-->
+    <script type="text/javascript" src="js/postprocessing_required/CopyShader.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/EffectComposer.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/RenderPass.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/MaskPass.js"></script>
+    <script type="text/javascript" src="js/postprocessing_required/ShaderPass.js"></script>
+    <!-- post processing shaders -->
+    <script src="js/postprocessing_shaders/DotScreenShader.js"></script>
+    <script src="js/postprocessing_shaders/RGBShiftShader.js"></script>
+    <script src="js/postprocessing_shaders/pattern1a.js"></script>
+    <!-- stats, gui -->
+    <script type="text/javascript" src="js/libs/stats.min.js"></script>
+    <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000;}
+        #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto;}
+        #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
+    </style>
+</head>
+<body>
+<div id="Stats-output"></div>
+<div id="WebGL-output"></div>
+<script type="text/javascript">
+    var camera, scene, renderer;
+    var video, texture, videoMaterial;
+    var composer;
+    var shaderTime = 0;
+    var pattern1aParams, pattern1bParams, pattern2Params, pattern3aParams, pattern3bParams, pattern4aParams, pattern4bParams, pattern5aParams, pattern5bParams, pattern5cParams, rgbParams;
+
+    var rgbPass, pattern1aPass, pattern1bPass, pattern2Pass, pattern3aPass, pattern3bPass, pattern4aPass, pattern4bPass, pattern5aPass, pattern5bPass, pattern5cPass;
+    var renderPass, copyPass;
+    var gui, controls, stats;
+
+    init();
+    animate();
+
+    function init(){
+        scene = new THREE.Scene();
+        camera  = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 )
+        camera.position.z = 3;
+        renderer = new THREE.WebGLRenderer({antialiasing: true});
+        renderer.setClearColor(new THREE.Color(0x000000, 1.0));
+        $("#WebGL-output").append(renderer.domElement);
+
+        video = document.createElement('video');
+        video.loop  = true;
+        video.volume    = 0.0;
+        video.src   = "assets/output.mp4";
+        video.play();
+
+        texture = new THREE.Texture(video);
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+        texture.generateMipmaps = false;
+
+        var geometry    = new THREE.PlaneGeometry(window.innerWidth, window.innerWidth * 9/16);
+        var material    = new THREE.MeshBasicMaterial({ map : texture });
+        var mesh = new THREE.Mesh( geometry, material );
+        scene.add(mesh);
+
+        //Create Shader Passes
+        renderPass = new THREE.RenderPass( scene, camera );
+        pattern1aPass = new THREE.ShaderPass( THREE.Pattern1a );
+        // pattern1bPass = new THREE.ShaderPass( THREE.Pattern1b );
+        // pattern2Pass = new THREE.ShaderPass( THREE.Pattern2 );
+        // pattern3aPass = new THREE.ShaderPass( THREE.Pattern3a );
+        // pattern3bPass = new THREE.ShaderPass( THREE.Pattern3b );
+        // pattern4aPass = new THREE.ShaderPass( THREE.Pattern4a );
+        // pattern4bPass = new THREE.ShaderPass( THREE.Pattern4b );
+        // pattern5aPass = new THREE.ShaderPass( THREE.Pattern5a );
+        // pattern5bPass = new THREE.ShaderPass( THREE.Pattern5b );
+        // pattern5cPass = new THREE.ShaderPass( THREE.Pattern5c );
+        rgbPass = new THREE.ShaderPass( THREE.RGBShiftShader );
+        copyPass = new THREE.ShaderPass( THREE.CopyShader );
+
+        //Init GUI controls
+        controls = new function () {
+            this.pauuse = function(){video.pause();};
+            this.plaay = function(){video.play();};
+            this.speed = 0.8;
+        };
+
+        pattern1aParams = { show: false, linesScale: 16 };
+        // pattern1bParams = { show: false, linesScale: 5 };
+        // pattern2Params = { show: false, linesScale: 200 };
+        // pattern3aParams = { show: false, linesScale: 9 };
+        // pattern3bParams = { show: false, linesScale: 2 };
+        // pattern4aParams = { show: false, linesScale: 5 };
+        // pattern4bParams = { show: false, linesScale: 1.5 };
+        // pattern5aParams = { show: false, linesScale: 10 };
+        // pattern5bParams = { show: false, linesScale: 10 };
+        // pattern5cParams = { show: false, linesScale: 10 };
+
+        rgbParams = { show: false, amount: 0.005 };
+
+
+        gui = new dat.GUI();
+        gui.add(controls, "pauuse").name("Pause Video");
+        gui.add(controls, "plaay").name("Play Video");
+
+        var f1 = gui.addFolder('1a - Lines');
+        f1.add(pattern1aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        f1.add(pattern1aParams, "linesScale",10 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        f1.open();
+
+        // var f2 = gui.addFolder('1b - Organic Lines');
+        // f2.add(pattern1bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f2.add(pattern1bParams, "linesScale",1 ,15).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        // f2.open();
+
+        // var f3 = gui.addFolder('2 - Hypnotic');
+        // f3.add(pattern2Params, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f3.add(pattern2Params, "linesScale",150 ,250).step(10).name("Amount").listen().onChange(onParamsChange);
+        // f3.open();
+
+        // var f4 = gui.addFolder('3a - Vertical Shift');
+        // f4.add(pattern3aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f4.add(pattern3aParams, "linesScale",2 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        // f4.open();
+
+        // var f5 = gui.addFolder('3b - Spiral');
+        // f5.add(pattern3bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f5.add(pattern3bParams, "linesScale",1 ,5).step(0.1).name("Scale").listen().onChange(onParamsChange);
+        // f5.open();
+
+        // var f6 = gui.addFolder('4a - Deconstruction');
+        // f6.add(pattern4aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // // f6.add(pattern4aParams, "linesScale",1 ,10).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        // f6.open();
+
+        // var f7 = gui.addFolder('4b - Random Spirals');
+        // f7.add(pattern4bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f7.add(pattern4bParams, "linesScale",1 ,2).step(0.1).name("Amount").listen().onChange(onParamsChange);
+        // f7.open();
+
+        // var f8 = gui.addFolder('5a - Inspired by Japan');
+        // f8.add(pattern5aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f8.add(pattern5aParams, "linesScale",5 ,40).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        // f8.open();
+
+        // var f9 = gui.addFolder('5b - Noisy Japan');
+        // f9.add(pattern5bParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f9.add(pattern5bParams, "linesScale",5 ,30).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        // f9.open();
+
+        // var f10 = gui.addFolder('5c - Noisy Japan Shift');
+        // f10.add(pattern5cParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        // f10.add(pattern5cParams, "linesScale",5 ,60).step(1).name("Amount").listen().onChange(onParamsChange);
+        // f10.open();
+
+        var f11 = gui.addFolder('RGB Shift (Three.js)');
+        f11.add(rgbParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        f11.add(rgbParams, "amount",0.0 ,0.01).name("Amount").listen().onChange(onParamsChange);
+        f11.open();
+
+        gui.add(controls, "speed", 0, 2).name("Speed");
+        // gui.close();
+
+        onToggleShaders();
+        onParamsChange();
+
+        window.addEventListener( 'resize', onWindowResize, false );
+        onWindowResize();
+
+        stats = new Stats();
+        stats.setMode(0); // 0: fps, 1: ms
+        $("#Stats-output").append(stats.domElement);
+    }; // init end
+
+    function onWindowResize(e) {
+        renderer.setSize(window.innerWidth, window.innerWidth * 9/16);
+    }
+
+    function onToggleShaders(){
+        //Add Shader Passes to Composer
+        composer = new THREE.EffectComposer( renderer);
+        composer.addPass( renderPass );
+
+        if (pattern1aParams.show == true){
+            composer.addPass( pattern1aPass );
+        }
+        // if (pattern1bParams.show == true){
+        //     composer.addPass( pattern1bPass );
+        // }
+        // if (pattern2Params.show == true){
+        //     composer.addPass( pattern2Pass );
+        // }
+        // if (pattern3aParams.show == true){
+        //     composer.addPass( pattern3aPass );
+        // }
+        // if (pattern3bParams.show == true){
+        //     composer.addPass( pattern3bPass );
+        // }
+        // if (pattern4aParams.show == true){
+        //     composer.addPass( pattern4aPass );
+        // }
+        // if (pattern4bParams.show == true){
+        //     composer.addPass( pattern4bPass );
+        // }
+        // if (pattern5aParams.show == true){
+        //     composer.addPass( pattern5aPass );
+        // }
+        // if (pattern5bParams.show == true){
+        //     composer.addPass( pattern5bPass );
+        // }
+        // if (pattern5cParams.show == true){
+        //     composer.addPass( pattern5cPass );
+        // }
+
+        if (rgbParams.show == true){
+            composer.addPass( rgbPass );
+        }
+
+        copyPass.renderToScreen = true;
+        composer.addPass( copyPass );
+    }
+
+
+    function onParamsChange() {
+        rgbPass.uniforms[ "angle" ].value = 20.0*Math.PI;
+        rgbPass.uniforms[ "amount" ].value = rgbParams.amount;
+
+        pattern1aPass.uniforms[ "scale" ].value = pattern1aParams.linesScale;
+        // pattern1bPass.uniforms[ "scale" ].value = pattern1bParams.linesScale;
+        // pattern2Pass.uniforms[ "scale" ].value = pattern2Params.linesScale;
+        // pattern3aPass.uniforms[ "scale" ].value = pattern3aParams.linesScale;
+        // pattern3bPass.uniforms[ "scale" ].value = pattern3bParams.linesScale;
+        // pattern4bPass.uniforms[ "scale" ].value = pattern4bParams.linesScale;
+        // pattern5aPass.uniforms[ "scale" ].value = pattern5aParams.linesScale;
+        // pattern5bPass.uniforms[ "scale" ].value = pattern5bParams.linesScale;
+        // pattern5cPass.uniforms[ "scale" ].value = pattern5cParams.linesScale;
+
+    }
+
+    function animate() {
+        shaderTime += 0.05 * controls.speed;
+        pattern1aPass.uniforms[ 'time' ].value =  shaderTime;
+        // pattern1bPass.uniforms[ 'time' ].value =  shaderTime;
+        // pattern2Pass.uniforms[ "time" ].value = shaderTime * 0.5;
+        // pattern3aPass.uniforms[ "time" ].value = shaderTime;
+        // pattern3bPass.uniforms[ "time" ].value = shaderTime;
+        // pattern4aPass.uniforms[ "time" ].value = shaderTime;
+        // pattern4bPass.uniforms[ "time" ].value = shaderTime;
+        // pattern5aPass.uniforms[ "time" ].value = shaderTime * 0.5;
+        // pattern5bPass.uniforms[ "time" ].value = shaderTime;
+        // pattern5cPass.uniforms[ "time" ].value = shaderTime;
+
+        if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
+            if ( texture ) texture.needsUpdate = true;
+        }
+
+        requestAnimationFrame( animate );
+        composer.render( camera, scene);
+        stats.update();
+    }
+
+</script>
+</body>
+</html>
+
+
+
