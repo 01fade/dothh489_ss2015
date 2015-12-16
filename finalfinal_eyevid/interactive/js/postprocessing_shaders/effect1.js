@@ -60,7 +60,7 @@ THREE.Effect1 = {
 
 
         "void main () {",
-        "    vec2 offset = vec2(clr(vUv, 0.3 + 0.1*noise(vUv+time*0.5), 100., 0.2 + 0.08*noise(vUv+time*0.5), 0.5, 0.2, 2., mouse));",
+        "    vec2 offset = vec2(clr(vUv, 0.3 * scale + 0.1*noise(vUv+time*0.5), 100., 0.2 + 0.08*noise(vUv+time*0.5), 0.5, 0.2, 2., mouse));",
         "    vec3 colorA = texture2D(tDiffuse,vUv).rgb;",
         "    vec3 colorB = texture2D(tDiffuse,vUv+offset).rgb;",
 

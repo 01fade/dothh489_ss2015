@@ -94,7 +94,7 @@ THREE.Effect2 = {
         "}",
 
         "void main () {",
-        "    vec4 colorMask = vec4(1.-circle(2., 1.4, 0.3, vUv, mouse+0.2*noise(vUv+time*0.2))) * texture2D( tDiffuse, vUv);",
+        "    vec4 colorMask = vec4(1.-circle(2., 1.4 * scale, 0.3, vUv, mouse+0.2*noise(vUv+time*0.2))) * texture2D( tDiffuse, vUv);",
         "    vec2 offset = vec2(rays(vUv, mouse));",
         "    vec4 colorRays = texture2D( tDiffuse, vUv) + offset.x;",
         "    vec4 colorBlur = blur(vUv, mouse);",

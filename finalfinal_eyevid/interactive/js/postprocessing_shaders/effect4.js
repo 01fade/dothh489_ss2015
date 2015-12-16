@@ -85,7 +85,7 @@ THREE.Effect4 = {
         "    colorBlur += texture2D( tDiffuse, vUv + ( vec2(  0.15, -0.37 ) * aspectcorrect ) * dofblur5 );",
 
             "    vec4 color = colorMask + colorBlur/20.;",
-        "    color *= 1.-circle(2., 2.0, 1.5, vUv, mouse+0.2*noise(vUv+time*0.2) ) * 0.7;",
+        "    color *= 1.-circle(2., 2.0 * scale, 1.5, vUv, mouse+0.2*noise(vUv+time*0.2) ) * 0.7;",
         "    gl_FragColor = vec4(color.rgb, 1.0);",
         "}",
 

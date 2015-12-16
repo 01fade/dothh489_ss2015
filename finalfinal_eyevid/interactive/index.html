@@ -70,7 +70,7 @@
 
         video = document.createElement('video');
         video.loop  = false;
-        video.volume    = 0.0;
+        video.volume    = 0.9;
         video.src   = "assets/eyevid.mp4";
         video.play();
 
@@ -101,27 +101,22 @@
             this.speed = 0.7;
         };
 
-        effect1Params = { show: false, rScale: 16 };
-        effect2Params = { show: false, rScale: 16 };
-        effect3Params = { show: false, rScale: 16 };
-        effect4Params = { show: true, rScale: 16 };
+        effect1Params = { show: true, rScale: 1 };
+        effect2Params = { show: false, rScale: 1 };
+        effect3Params = { show: false, rScale: 1 };
+        effect4Params = { show: false, rScale: 1 };
         rgbParams = { show: false, amount: 0.001 };
 
         gui = new dat.GUI();
         gui.add(controls, "pauuse").name("Pause Video");
         gui.add(controls, "plaay").name("Play Video");
-
-        var f1 = gui.addFolder('Effect #1');
-        f1.add(effect1Params, "show", true).name("Show").listen().onChange(onToggleShaders);
-        f1.add(effect1Params, "rScale",10 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
-        f1.open();
-
-        var f11 = gui.addFolder('RGB Shift (Three.js)');
-        f11.add(rgbParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        f11.add(rgbParams, "amount",0.0 ,0.01).name("Amount").listen().onChange(onParamsChange);
-        // f11.open();
-
+        gui.add(effect1Params, "rScale",0.1 ,2).step(0.01).name("Size").listen().onChange(onParamsChange);
         gui.add(controls, "speed", 0, 2).name("Speed");
+
+        var f1 = gui.addFolder('RGB Shift (Three.js)');
+        f1.add(rgbParams, "show", true).name("Show").listen().onChange(onToggleShaders);
+        f1.add(rgbParams, "amount",0.0 ,0.01).name("Amount").listen().onChange(onParamsChange);
+        // f11.open();
         gui.close();
 
         onToggleShaders();
@@ -137,7 +132,7 @@
 
         stats = new Stats();
         stats.setMode(0); // 0: fps, 1: ms
-        $("#Stats-output").append(stats.domElement);
+        // $("#Stats-output").append(stats.domElement);
     }; // init end
 
     function onWindowResize(e) {
