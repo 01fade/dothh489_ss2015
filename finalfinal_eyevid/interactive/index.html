@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shaders + The xx (VCR)</title>
+    <title>Cinema as Eye - Interactive Video</title>
     <!-- Author _ Hang Do Thi Duc ( 22-8miles.com ) -->
     <!-- Code Base _ https://github.com/josdirksen/learning-threejs - Example 10.11 - Video texture-->
     <!-- libaries -->
@@ -16,12 +16,15 @@
     <!-- post processing shaders -->
     <script src="js/postprocessing_shaders/DotScreenShader.js"></script>
     <script src="js/postprocessing_shaders/RGBShiftShader.js"></script>
-    <script src="js/postprocessing_shaders/pattern1a.js"></script>
+    <script src="js/postprocessing_shaders/effect1.js"></script>
+    <script src="js/postprocessing_shaders/effect2.js"></script>
+    <script src="js/postprocessing_shaders/effect3.js"></script>
+    <script src="js/postprocessing_shaders/effect4.js"></script>
     <!-- stats, gui -->
     <script type="text/javascript" src="js/libs/stats.min.js"></script>
     <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; background-color: #000;}
+        body { margin: 0; overflow: hidden; background-color: #000; cursor: none;}
         #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto;}
         #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
     </style>
@@ -35,22 +38,25 @@
     var composer;
     var mouse = {"x": 0, "y": 0};
     var shaderTime = 0;
-    var pattern1aParams, rgbParams;
+    var effect1Params, effect2Params, effect3Params, effect4Params, rgbParams;
 
-    var pattern1aPass, rgbPass;
+    var effect1Pass, effect2Pass, effect3Pass, effect4Pass, rgbPass;
     var renderPass, copyPass;
     var gui, controls, stats;
 
     $(window).on("load", function() {
         init();
         animate();
+        keyControl();
         // workaround for remove pixelated video
         $(".folder:last input").trigger("click");
 
         $( document ).on( "mousemove", function( event ) {
-          mouse.x = event.pageX/window.innerWidth;
-          mouse.y = (window.innerHeight - event.pageY)/window.innerHeight;
-          // console.log(mouse.x, mouse.y);
+            setTimeout(function(){
+              mouse.x = event.pageX/window.innerWidth;
+              mouse.y = (window.innerHeight - event.pageY)/window.innerHeight;
+              // console.log(mouse.x, mouse.y);
+            }, 150);
         });
     })
 
@@ -81,7 +87,10 @@
 
         //Create Shader Passes
         renderPass = new THREE.RenderPass( scene, camera );
-        pattern1aPass = new THREE.ShaderPass( THREE.Pattern1a );
+        effect1Pass = new THREE.ShaderPass( THREE.Effect1 );
+        effect2Pass = new THREE.ShaderPass( THREE.Effect2 );
+        effect3Pass = new THREE.ShaderPass( THREE.Effect3 );
+        effect4Pass = new THREE.ShaderPass( THREE.Effect4 );
         rgbPass = new THREE.ShaderPass( THREE.RGBShiftShader );
         copyPass = new THREE.ShaderPass( THREE.CopyShader );
 
@@ -89,20 +98,22 @@
         controls = new function () {
             this.pauuse = function(){video.pause();};
             this.plaay = function(){video.play();};
-            this.speed = 0.5;
+            this.speed = 0.7;
         };
 
-        pattern1aParams = { show: false, linesScale: 16 };
+        effect1Params = { show: false, rScale: 16 };
+        effect2Params = { show: false, rScale: 16 };
+        effect3Params = { show: false, rScale: 16 };
+        effect4Params = { show: true, rScale: 16 };
         rgbParams = { show: false, amount: 0.001 };
-
 
         gui = new dat.GUI();
         gui.add(controls, "pauuse").name("Pause Video");
         gui.add(controls, "plaay").name("Play Video");
 
-        var f1 = gui.addFolder('1a - Lines');
-        f1.add(pattern1aParams, "show", true).name("Show").listen().onChange(onToggleShaders);
-        f1.add(pattern1aParams, "linesScale",10 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
+        var f1 = gui.addFolder('Effect #1');
+        f1.add(effect1Params, "show", true).name("Show").listen().onChange(onToggleShaders);
+        f1.add(effect1Params, "rScale",10 ,20).step(0.5).name("Amount").listen().onChange(onParamsChange);
         f1.open();
 
         var f11 = gui.addFolder('RGB Shift (Three.js)');
@@ -116,7 +127,10 @@
         onToggleShaders();
         onParamsChange();
         // once init mouse uniforms type
-        pattern1aPass.uniforms[ "mouse" ].type = "v2";
+        effect1Pass.uniforms[ "mouse" ].type = "v2";
+        effect2Pass.uniforms[ "mouse" ].type = "v2";
+        effect3Pass.uniforms[ "mouse" ].type = "v2";
+        effect4Pass.uniforms[ "mouse" ].type = "v2";
 
         window.addEventListener( 'resize', onWindowResize, false );
         onWindowResize();
@@ -135,8 +149,17 @@
         composer = new THREE.EffectComposer( renderer);
         composer.addPass( renderPass );
 
-        if (pattern1aParams.show == true){
-            composer.addPass( pattern1aPass );
+        if (effect1Params.show == true){
+            composer.addPass( effect1Pass );
+        }
+        if (effect2Params.show == true){
+            composer.addPass( effect2Pass );
+        }
+        if (effect3Params.show == true){
+            composer.addPass( effect3Pass );
+        }
+        if (effect4Params.show == true){
+            composer.addPass( effect4Pass );
         }
         if (rgbParams.show == true){
             composer.addPass( rgbPass );
@@ -150,13 +173,57 @@
         rgbPass.uniforms[ "angle" ].value = 20.0*Math.PI;
         rgbPass.uniforms[ "amount" ].value = rgbParams.amount;
 
-        pattern1aPass.uniforms[ "scale" ].value = pattern1aParams.linesScale;
+        effect1Pass.uniforms[ "scale" ].value = effect1Params.rScale;
+        effect2Pass.uniforms[ "scale" ].value = effect2Params.rScale;
+        effect3Pass.uniforms[ "scale" ].value = effect3Params.rScale;
+        effect4Pass.uniforms[ "scale" ].value = effect4Params.rScale;
+    }
+
+    function keyControl() {
+        $(document).on("keyup", function(e){
+            if(e.keyCode == 49){ // 1
+                effect1Params.show = true;
+                effect2Params.show = false;
+                effect3Params.show = false;
+                effect4Params.show = false;
+            } else if(e.keyCode == 50){ // 2
+                effect1Params.show = false;
+                effect2Params.show = true;
+                effect3Params.show = false;
+                effect4Params.show = false;
+            } else if(e.keyCode == 51){ // 3
+                effect1Params.show = false;
+                effect2Params.show = false;
+                effect3Params.show = true;
+                effect4Params.show = false;
+            } else if(e.keyCode == 52){ // 4
+                effect1Params.show = false;
+                effect2Params.show = false;
+                effect3Params.show = false;
+                effect4Params.show = true;
+            }
+            if (e.keyCode == 77){ // m
+                $("body").css("cursor", "pointer");
+            }
+            if (e.keyCode == 78){ // n
+                $("body").css("cursor", "none");
+            }
+            onToggleShaders();
+       });
     }
 
     function animate() {
         shaderTime += 0.05 * controls.speed;
-        pattern1aPass.uniforms[ 'time' ].value =  shaderTime;
-        pattern1aPass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x, mouse.y );
+        effect1Pass.uniforms[ 'time' ].value = shaderTime;
+        effect2Pass.uniforms[ 'time' ].value = shaderTime;
+        effect3Pass.uniforms[ 'time' ].value = shaderTime;
+        effect4Pass.uniforms[ 'time' ].value = shaderTime;
+        var min = -0.0005;
+        var max = 0.0005;
+        effect1Pass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x + (Math.random() * (max - min) + min), mouse.y + (Math.random() * (max - min) + min) );
+        effect2Pass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x + (Math.random() * (max - min) + min), mouse.y + (Math.random() * (max - min) + min) );
+        effect3Pass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x + (Math.random() * (max - min) + min), mouse.y + (Math.random() * (max - min) + min) );
+        effect4Pass.uniforms[ "mouse" ].value = new THREE.Vector2( mouse.x + (Math.random() * (max - min) + min), mouse.y + (Math.random() * (max - min) + min) );
 
 
         if ( video.readyState === video.HAVE_ENOUGH_DATA ) {

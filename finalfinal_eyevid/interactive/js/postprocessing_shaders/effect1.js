@@ -1,5 +1,5 @@
 // Author _ Hang Do Thi Duc ( 22-8miles.com )
-THREE.Pattern1a = {
+THREE.Effect1 = {
     uniforms: {
         "time":     { type: "f", value: 0.0},
         "mouse":     { type: "v2", value: null},
@@ -43,7 +43,7 @@ THREE.Pattern1a = {
         "vec3 clr(vec2 st, float size, float rays, float smoothstart, float smoothend, float strength, float speed, vec2 mouse) {",
         "    vec3 color = vec3(0.);",
         "    st -= mouse;",
-        "    float r = length(st);",
+        "    float r = length(vec2(st.x * 2., st.y));",
         "    float a = atan(st.y,st.x);",
         "    a += noise(vec2(time*0.01));",
         "    float pct = size + noise(vec2(sin(a)*rays,cos(a))) * (.2*(sin(a+time*speed)*strength));",
@@ -51,13 +51,21 @@ THREE.Pattern1a = {
         "    return color;",
         "}",
 
-        "void main () {",
+        "float circle (float sc, float r, float sm, vec2 st, vec2 mouse){",
+        "    vec2 toCenter = mouse-st;",
+        "    float pct = length(vec2(toCenter.x * 2., toCenter.y)) * sc;",
+        "    pct = smoothstep(r-sm, r+sm, pct);",
+        "    return pct;",
+        "}",
 
-        "    vec2 offset = vec2(clr(vUv, 0.2, 100., 0.2, 0.5, 0.2, 2., mouse));",
+
+        "void main () {",
+        "    vec2 offset = vec2(clr(vUv, 0.3 + 0.1*noise(vUv+time*0.5), 100., 0.2 + 0.08*noise(vUv+time*0.5), 0.5, 0.2, 2., mouse));",
         "    vec3 colorA = texture2D(tDiffuse,vUv).rgb;",
         "    vec3 colorB = texture2D(tDiffuse,vUv+offset).rgb;",
 
         "    vec3 color = mix(colorA, colorB, 0.8);",
+        "    color *= 1.-circle(2., 1.5, 1.0, vUv, mouse ) * 0.9;",
 
         "    gl_FragColor = vec4(color, 1.0);",
         "}",

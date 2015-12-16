@@ -10,15 +10,19 @@ uniform float u_time;
 
 void main(){
 	vec2 st = gl_FragCoord.xy/u_resolution;
-    st *= 2.;
-    st -= 0.2;
+    vec2 st2 = gl_FragCoord.xy/u_resolution;
+    st *= 5.;
+    st -= 1.6;
     float pct = 0.0;
     float a = 1. - (abs(cos(u_time * 0.1)) * 0.3);
     vec2 b;
-    b.x = sin(u_time) + 0.5;
-    b.y = cos(u_time * 0.7) + 0.5;
+    b.x = sin(u_time * 0.5) + 0.5;
+    b.y = cos(u_time * 0.9) + 0.5;
 
+    // pct = distance(st,vec2(a));
+    pct = distance(st2,b);
     pct = pow(distance(st,vec2(a)),distance(st,b));
+
     pct = 1.-pct;
 
     vec3 color = vec3(pct);

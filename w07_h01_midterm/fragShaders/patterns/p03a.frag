@@ -29,7 +29,7 @@ vec2 truchet(vec2 st){
 // http://thndl.com/square-shaped-shaders.html
 float pattern(vec2 st){
     float d = 0.0;
-    st *= 5.;
+    // st *= 5.;
     st = truchet(st*4.);
     vec2 st_f = fract(st);
     st_f = st_f * 2.-1.;

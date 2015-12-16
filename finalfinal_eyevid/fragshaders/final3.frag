@@ -1,5 +1,5 @@
-// Author @patriciogv - 2015
-// http://patriciogonzalezvivo.com
+// Author _ Hang Do Thi Duc ( 22-8miles.com )
+// Base Code _ http://patriciogonzalezvivo.com
 
 #ifdef GL_ES
 precision mediump float;
@@ -29,31 +29,29 @@ float noise(vec2 st) {
                      dot( random(i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);
 }
 
-vec3 clr(vec2 st, float size, float rays, float smoothstart, float smoothend, float strength, float speed, vec2 mouse) {
-    vec3 color = vec3(0.);
-    st -= mouse;
-    float r = length(st);
-    float a = atan(st.y,st.x);
-    a += noise(vec2(u_time*0.01));
-    float pct = size + noise(vec2(sin(a)*rays,cos(a))) * (.2*(sin(a+u_time*speed)*strength));
-    color += smoothstep(pct, pct+smoothstart,r)-smoothstep(pct, pct+smoothend,r);
-    return color;
+mat2 rotate2d(float _angle){
+    return mat2(cos(_angle),-sin(_angle),
+                sin(_angle),cos(_angle));
+}
+
+float circle (float sc, float r, float sm, vec2 st, vec2 mouse){
+    st -= vec2(0.5);
+    st = rotate2d( sin(u_time)*0.1 + 0.05*noise(st+u_time) ) * st;
+    st += 0.5;
+    vec2 toCenter = mouse-st;
+    float pct = length(toCenter + 0.5*noise(st+u_time*0.01)) * sc;
+    pct = smoothstep(r-sm, r+sm, pct);
+    return pct;
 }
 
 void main () {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     vec2 mouse = u_mouse/u_resolution;
-
+    vec2 offset = vec2(circle(2., 1.2, 0.7, st, mouse+0.05*noise(st+u_time*0.2) ));
+    vec3 colorB = texture2D(u_tex0,st+offset).rgb;
     vec3 colorA = texture2D(u_tex0,st).rgb;
-    vec3 colorB = vec3(0.0);
-    vec2 offset = vec2(clr(st, 0.2, 100., 0.2, 0.5, 0.2, 2., mouse));
-    colorB.r = texture2D(u_tex0,st+offset).r;
-    offset = vec2(clr(st, 0.2, 100., 0.2, 0.51, 0.2, 2., mouse));
-    colorB.g = texture2D(u_tex0,st+offset).g;
-    offset = vec2(clr(st, 0.2, 100., 0.2, 0.52, 0.2, 2., mouse));
-    colorB.b = texture2D(u_tex0,st+offset).b;
-
-    vec3 color = mix(colorA, colorB, 0.8);
-
+    vec3 color = max(colorA,colorB);
+    color = color * (1.-circle(2., 0.7, 0.2, st, mouse ) * 0.7);
+    color *= 1.-circle(2., 1.2, 0.2, st, mouse ) * 0.5;
     gl_FragColor = vec4(color, 1.0);
 }

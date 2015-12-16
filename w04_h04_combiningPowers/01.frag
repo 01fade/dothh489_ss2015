@@ -34,7 +34,7 @@ void main(){
   vec3 color = vec3(0.0);
 
   //position, corners, smooth beginning, smooth end
-  color = shape(4.0, 6.0, 0.7, 0.7, st) - shape(4.0, 6.0, 0.6, 0.6, st);
+  color = shape(4.0, 6.0, 0.7, 0.7, st) - shape(4.0, 6.0, sin(u_time)*0.69, sin(u_time)*0.69, st);
 
   gl_FragColor = vec4(color,1.0);
 }
