@@ -51,7 +51,7 @@ void main () {
 
     vec3 color = mix(colorA, colorB, 0.8);
     // uncomment to just see shader
-    // color = pct;
+    color = pct;
 
     gl_FragColor = vec4(color, 1.0);
 }

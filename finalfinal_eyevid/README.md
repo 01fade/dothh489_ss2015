@@ -3,13 +3,10 @@ The Eye Vid, another experimental, interactive visual music video, building on m
 
 ## Demo
 
-Coming soon...
+[You can see and experience the project here.](http://hangdothiduc.de/mfadt/fall15/eyevid/)
 
 ## To Do
-- mouse interaction for shaders
-- different shaders at different times
-- (UI to change/customize shaders)
-- loader at the beginning for sharp video
+- head tracking
 
 
 ##References
