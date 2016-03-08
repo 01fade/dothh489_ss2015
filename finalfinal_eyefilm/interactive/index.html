@@ -24,12 +24,18 @@
     <script type="text/javascript" src="js/libs/stats.min.js"></script>
     <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; background-color: #000; cursor: none;}
-        #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto;}
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: Courier, sans-serif; line-height: 1.7em;}
+        #WebGL-output canvas{ position: absolute; top:0; left:0; bottom:0; right:0; margin: auto; cursor: none;}
         #Stats-output { position: absolute; z-index: 100; top:0; left:0;}
+        #intro { width: 40vw; height: 50vh; padding: 25vh 30vw 25vh 30vw; color: #fff; position: fixed; z-index: 10; background-color: #000;}
+        button { padding: 20px; background-color: #000; border: 2px solid #fff; color: #fff; font-family: Courier, sans-serif; font-size: inherit;}
+        button:hover { background-color: #fff; color: #000; cursor: pointer;}
+        a, a:visited { color: #FC0038; text-decoration: none;}
+        a:hover, span { border-bottom: 1px solid #FC0038; }
     </style>
 </head>
 <body>
+<div id="intro"><p>This is an experiment for an interactive <a href="https://vimeo.com/228miles/cinemaaseye">visual essay</a>. Control the visuals with your mouse and press <span>1</span>, <span>2</span>, <span>3</span> or <span>4</span> to change the effects. In the panel on the top right, you find more options. I am currently working on enabling eye or head tracking instead of using your mouse.</p><p>See more of my work at <a href="http://22-8miles.com">22-8miles.com</a> and give me feedback at <a href="mailto:hang@22-8miles.com">hang@22-8miles.com</a>.</p><button>OK, got it.</button></div>
 <div id="Stats-output"></div>
 <div id="WebGL-output"></div>
 <script type="text/javascript">
@@ -48,6 +54,11 @@
         init();
         animate();
         keyControl();
+        $("#intro button").click(function(){
+            $("#intro").fadeOut(1500, function(){
+                video.play();
+            })
+        });
         // workaround for remove pixelated video
         $(".folder:last input").trigger("click");
 
@@ -72,7 +83,7 @@
         video.loop  = false;
         video.volume    = 0.9;
         video.src   = "assets/eyevid.mp4";
-        video.play();
+        // video.play();
 
         texture = new THREE.Texture(video);
         texture.minFilter = THREE.LinearFilter;
@@ -96,6 +107,11 @@
 
         //Init GUI controls
         controls = new function () {
+            this.info = function(){
+                video.pause();
+                $("#intro").css("opacity", 0.8);
+                $("#intro").fadeIn(1000);
+                };
             this.pauuse = function(){video.pause();};
             this.plaay = function(){video.play();};
             this.speed = 0.7;
@@ -108,6 +124,7 @@
         rgbParams = { show: false, amount: 0.001 };
 
         gui = new dat.GUI();
+        gui.add(controls, "info").name("Show Info");
         gui.add(controls, "pauuse").name("Pause Video");
         gui.add(controls, "plaay").name("Play Video");
         gui.add(effect1Params, "rScale",0.1 ,2).step(0.01).name("Size").listen().onChange(onParamsChange);

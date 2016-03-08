@@ -3,9 +3,7 @@ The Eye Vid, another experimental, interactive visual music video, building on m
 
 ## Demo
 
-[You can see and experience the project here.](http://hangdothiduc.de/mfadt/fall15/eyevid/)
-
-Press 1, 2, 3, 4 to change effects (shaders).
+[You can see and experience the project here.](http://16fa.de/eyefilm/)
 
 ## To Do
 - head tracking
